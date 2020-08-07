@@ -9,7 +9,8 @@ import {
   TASK_DONE,
   EDIT_TASK_DESCRIPTION,
   UPDATE_TASK_DESCRIPTION,
-  DELETE_TASK
+  DELETE_TASK,
+  UP_TASK
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -137,4 +138,34 @@ export const deleteTask = taskDelete => async (dispatch, getRootState = {}) => {
     .map(task => ({ ...task, indexTask: task.indexTask - 1 }));
   const numberOfTasks = getRootState().projects.projects[indexProject].tasks.length;
   dispatch(deleteTaskAction({ ...taskDelete, tasksUpdate }));
+};
+
+const upTaskAction = upTask => ({
+  type: UP_TASK,
+  payload: upTask
+});
+
+export const upTask = up => async (dispatch, getRootState = {}) => {
+  if (getRootState().projects.editProjectNameId
+    || getRootState().projects.editTaskDescriptionProjectId
+    || !up.indexTask) {
+    return;
+  }
+  const indexProject = search(getRootState().projects.projects, up.projectId);
+  const tasksMove = [
+    {
+      ...getRootState().projects.projects[indexProject].tasks[up.indexTask],
+      indexTask: up.indexTask - 1
+    },
+    {
+      ...getRootState().projects.projects[indexProject].tasks[up.indexTask - 1],
+      indexTask: up.indexTask
+    }
+  ];
+  const tasksServerMove = tasksMove.map(task => ({
+    id: task.id,
+    indexTask: task.indexTask
+  }));
+
+  dispatch(upTaskAction({ indexProject, indexTask: up.indexTask, tasksMove }));
 };

@@ -15,7 +15,8 @@ const Task = ({
   editTaskDescription,
   updateTaskDescription,
   modalConfirmAction,
-  deleteTask
+  deleteTask,
+  upTask
 }) => {
   const { id, done, description, indexTask } = task;
   const [getDescription, setDescription] = useState(description);
@@ -72,6 +73,15 @@ const Task = ({
     }
   };
 
+  const handleUpTask = event => {
+    try {
+      event.preventDefault();
+      upTask({ indexTask, id, projectId });
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
+
   return (
     <tr className="task">
       <td className="task-done">
@@ -112,7 +122,7 @@ const Task = ({
           <td>
             <div className="task-management">
               <div className="move-task">
-                <div className="task-up">{' '}</div>
+                <div className="task-up" onClick={handleUpTask}>{' '}</div>
                 <div className="task-down">{' '}</div>
               </div>
               <div className="task-edit" onClick={handleEditTaskDescription}>&nbsp;</div>
@@ -133,7 +143,8 @@ Task.propTypes = {
   editTaskDescription: PropTypes.func.isRequired,
   updateTaskDescription: PropTypes.func.isRequired,
   modalConfirmAction: PropTypes.func.isRequired,
-  deleteTask: PropTypes.func.isRequired
+  deleteTask: PropTypes.func.isRequired,
+  upTask: PropTypes.func.isRequired
 };
 
 export default Task;

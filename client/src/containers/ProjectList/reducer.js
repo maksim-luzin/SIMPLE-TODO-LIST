@@ -9,7 +9,8 @@ import {
   TASK_DONE,
   EDIT_TASK_DESCRIPTION,
   UPDATE_TASK_DESCRIPTION,
-  DELETE_TASK
+  DELETE_TASK,
+  UP_TASK
 } from './actionTypes';
 
 
@@ -140,6 +141,23 @@ export default (state = {}, action) => {
         modal: false,
         deleteFunction: () => { },
         deleteData: {}
+      };
+
+    case UP_TASK:
+      return {
+        ...state,
+        projects: [
+          ...state.projects.slice(0, action.payload.indexProject),
+          {
+            ...state.projects[action.payload.indexProject],
+            tasks: [
+              ...state.projects[action.payload.indexProject].tasks.slice(0, action.payload.indexTask - 1),
+              ...action.payload.tasksMove,
+              ...state.projects[action.payload.indexProject].tasks.slice(action.payload.indexTask + 1)
+            ]
+          },
+          ...state.projects.slice(action.payload.indexProject + 1)
+        ]
       };
 
     default:
