@@ -1,6 +1,7 @@
 import {
   ADD_PROJECT,
-  EDIT_PROJECTT_NAME
+  EDIT_PROJECTT_NAME,
+  UPDATE_PROJECT_NAME
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -33,4 +34,13 @@ export const editProjectName = id => (dispatch, getRootState = {}) => {
     return;
   }
   dispatch(editProjectNameAction(id));
+};
+
+const updateProjectNameAction = projectName => ({
+  type: UPDATE_PROJECT_NAME,
+  payload: projectName
+});
+
+export const updateProjectName = updateNameProject => async dispatch => {
+  dispatch(updateProjectNameAction(updateNameProject));
 };

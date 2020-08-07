@@ -11,10 +11,22 @@ const ProjectManeger = ({
   id,
   name,
   editProjectName,
-  edit
+  edit,
+  updateProjectName
 }) => {
   const [getName, setName] = useState(name);
 
+  const handleUpdateProjectName = event => {
+    try {
+      event.preventDefault();
+      if (!getName.trim()) {
+        return;
+      }
+      updateProjectName({ id, name: getName.trim() });
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
 
   return edit
     ? (
@@ -56,7 +68,12 @@ const ProjectManeger = ({
     )
 }
 
-
-ProjectManeger.propTypes = {};
+ProjectManeger.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  editProjectName: PropTypes.func.isRequired,
+  edit: PropTypes.bool.isRequired,
+  updateProjectName: PropTypes.func.isRequired
+};
 
 export default ProjectManeger;

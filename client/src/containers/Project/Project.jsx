@@ -11,7 +11,8 @@ import Task from '../../components/Task';
 
 import { Card, Form, Table, Button } from 'react-bootstrap';
 import {
-  editProjectName
+  editProjectName,
+  updateProjectName
 } from '../ProjectList/actions';
 
 import './project.scss'
@@ -19,7 +20,8 @@ import './project.scss'
 const Project = ({
   project,
   editProjectName: editProject,
-  editProjectNameId
+  editProjectNameId,
+  updateProjectName: updateProject
 }) => {
   return (
     <Card className="mb-5 project">
@@ -28,6 +30,7 @@ const Project = ({
         name={project.name}
         editProjectName={editProject}
         edit={editProjectNameId === project.id}
+        updateProjectName={updateProject}
       />
       <NewTask />
       <Table responsive className="table mb-0 table-bordered table-hover">
@@ -42,14 +45,15 @@ const Project = ({
           ))}
         </tbody>
       </Table>
-    </Card >
+    </Card>
   )
 }
 
 Project.propTypes = {
   project: PropTypes.objectOf(PropTypes.any).isRequired,
   editProjectName: PropTypes.func.isRequired,
-  editProjectNameId: PropTypes.number.isRequired
+  editProjectNameId: PropTypes.number.isRequired,
+  updateProjectName: PropTypes.func.isRequired
 };
 
 const mapStateToProps = rootState => ({
@@ -57,7 +61,8 @@ const mapStateToProps = rootState => ({
 });
 
 const actions = {
-  editProjectName
+  editProjectName,
+  updateProjectName
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
