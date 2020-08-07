@@ -2,7 +2,9 @@ import {
   ADD_PROJECT,
   EDIT_PROJECTT_NAME,
   UPDATE_PROJECT_NAME,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  MODAL_CONFIRM,
+  CLOSE_CONFIRM
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -54,3 +56,12 @@ const deleteProjectAction = id => ({
 export const deleteProject = id => async dispatch => {
   dispatch(deleteProjectAction(id));
 };
+
+export const modalConfirmAction = deleted => ({
+  type: MODAL_CONFIRM,
+  payload: deleted
+});
+
+export const closeConfirmAction = () => ({
+  type: CLOSE_CONFIRM
+});

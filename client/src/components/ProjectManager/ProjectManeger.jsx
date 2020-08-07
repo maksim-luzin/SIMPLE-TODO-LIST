@@ -13,7 +13,8 @@ const ProjectManeger = ({
   editProjectName,
   edit,
   updateProjectName,
-  deleteProject
+  deleteProject,
+  modalConfirmAction
 }) => {
   const [getName, setName] = useState(name);
 
@@ -84,7 +85,8 @@ ProjectManeger.propTypes = {
   editProjectName: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
   updateProjectName: PropTypes.func.isRequired,
-  deleteProject: PropTypes.func.isRequired
+  deleteProject: PropTypes.func.isRequired,
+  modalConfirmAction: PropTypes.func.isRequired
 };
 
 export default ProjectManeger;

@@ -2,7 +2,9 @@ import {
   ADD_PROJECT,
   EDIT_PROJECTT_NAME,
   UPDATE_PROJECT_NAME,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  MODAL_CONFIRM,
+  CLOSE_CONFIRM
 } from './actionTypes';
 
 
@@ -47,6 +49,22 @@ export default (state = {}, action) => {
           ...state.projects.slice(0, indexProject),
           ...state.projects.slice(indexProject + 1)
         ],
+        modal: false,
+        deleteFunction: () => { },
+        deleteData: {}
+      };
+
+    case MODAL_CONFIRM:
+      return {
+        ...state,
+        modal: true,
+        deleteFunction: action.payload.deleteFunction,
+        deleteData: action.payload.deleteData
+      };
+
+    case CLOSE_CONFIRM:
+      return {
+        ...state,
         modal: false,
         deleteFunction: () => { },
         deleteData: {}
