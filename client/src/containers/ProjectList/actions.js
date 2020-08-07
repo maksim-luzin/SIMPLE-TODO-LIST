@@ -10,7 +10,8 @@ import {
   EDIT_TASK_DESCRIPTION,
   UPDATE_TASK_DESCRIPTION,
   DELETE_TASK,
-  UP_TASK
+  UP_TASK,
+  DOWN_TASK
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -168,4 +169,36 @@ export const upTask = up => async (dispatch, getRootState = {}) => {
   }));
 
   dispatch(upTaskAction({ indexProject, indexTask: up.indexTask, tasksMove }));
+};
+
+const downTaskAction = downTask => ({
+  type: DOWN_TASK,
+  payload: downTask
+});
+
+export const downTask = down => async (dispatch, getRootState = {}) => {
+  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
+    return;
+  }
+  const indexProject = search(getRootState().projects.projects, down.projectId);
+  if (getRootState().projects.projects[indexProject].tasks.length - 1 <= down.indexTask) {
+    return;
+  }
+  const tasksMove = [
+    {
+      ...getRootState().projects.projects[indexProject].tasks[down.indexTask + 1],
+      indexTask: down.indexTask
+    },
+    {
+      ...getRootState().projects.projects[indexProject].tasks[down.indexTask],
+      indexTask: down.indexTask + 1
+    }
+  ];
+
+  const tasksServerMove = tasksMove.map(task => ({
+    id: task.id,
+    indexTask: task.indexTask
+  }));
+
+  dispatch(downTaskAction({ indexProject, indexTask: down.indexTask, tasksMove }));
 };

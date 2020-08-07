@@ -10,7 +10,8 @@ import {
   EDIT_TASK_DESCRIPTION,
   UPDATE_TASK_DESCRIPTION,
   DELETE_TASK,
-  UP_TASK
+  UP_TASK,
+  DOWN_TASK
 } from './actionTypes';
 
 
@@ -154,6 +155,23 @@ export default (state = {}, action) => {
               ...state.projects[action.payload.indexProject].tasks.slice(0, action.payload.indexTask - 1),
               ...action.payload.tasksMove,
               ...state.projects[action.payload.indexProject].tasks.slice(action.payload.indexTask + 1)
+            ]
+          },
+          ...state.projects.slice(action.payload.indexProject + 1)
+        ]
+      };
+
+    case DOWN_TASK:
+      return {
+        ...state,
+        projects: [
+          ...state.projects.slice(0, action.payload.indexProject),
+          {
+            ...state.projects[action.payload.indexProject],
+            tasks: [
+              ...state.projects[action.payload.indexProject].tasks.slice(0, action.payload.indexTask),
+              ...action.payload.tasksMove,
+              ...state.projects[action.payload.indexProject].tasks.slice(action.payload.indexTask + 2)
             ]
           },
           ...state.projects.slice(action.payload.indexProject + 1)
