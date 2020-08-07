@@ -1,0 +1,32 @@
+.new-task {
+  background-color: #cfcfcf;
+  padding: 0.6rem;
+  padding-left: 7.57%;
+  background-image: url(./new-task-logo.svg);
+  background-position: 1rem center;
+  background-repeat: no-repeat;
+}
+
+.new-task-description {
+  padding-bottom: 0!important; ;
+  padding-top: 0 !important;
+  width: 83% !important;
+  height: 1.9rem !important;
+  display: inline-block !important;
+  font-size: 88.5% !important;
+  font-weight: bold;
+}
+
+.new-task-add {
+  width: 17% !important;
+  button {
+    display: inline-block !important;
+    padding: 0.02em !important;
+    width: 100% !important;
+    font-size: 0.89rem !important;
+    font-weight: bold;
+    vertical-align: top;
+  }
+}
+
+

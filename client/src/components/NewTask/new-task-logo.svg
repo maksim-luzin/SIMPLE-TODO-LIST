@@ -1,0 +1,20 @@
+<svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      version="1.1"
+      viewBox="0 0 5.821 5.821"
+    >
+      <g transform="translate(0 -291.18)">
+        <path
+          fill="#589371"
+          fillOpacity="1"
+          stroke="none"
+          strokeLinecap="butt"
+          strokeLinejoin="miter"
+          strokeOpacity="1"
+          strokeWidth="0.265"
+          d="M0 293.296h2.117v-2.117h1.587v2.117h2.117v1.587H3.704V297H2.117v-2.117H0z"
+        ></path>
+      </g>
+    </svg>

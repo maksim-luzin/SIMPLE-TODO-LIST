@@ -1,0 +1,85 @@
+.project-header {
+  padding-top: 0.9rem !important;
+  padding-bottom: 0.9rem !important;
+  padding-right: 0 !important;
+}
+
+.project-name {
+  display: inline-block;
+  width: 87.5%;
+  font-size: 1.15rem;
+}
+
+.project-edit,
+.project-delete {
+  padding: 0 !important;
+  display: none;
+  background-repeat: no-repeat;
+}
+
+.card-header:hover .project-edit,
+.card-header:hover .project-delete {
+  display: inline-block;
+}
+
+.project-edit {
+  width: 5.7%;
+  border-right: white 1px solid;
+  background-image: url(./project-edit.svg);
+  background-position: center center;
+}
+
+.project-delete {
+  width: 6.5%;
+  background-image: url(./project-delete.svg);
+  background-position: 0.75rem center;
+}
+
+.edit-project {
+  padding-right: 0;
+}
+
+.edit-project-name {
+  padding: 0.7rem !important;
+
+
+  input {
+    display: inline-block !important;
+    padding: 0;
+    width: 87.5%;
+    height: 1.5rem !important;
+    line-height: 1.15rem;
+    font-size: 1.15rem;
+    outline: none;
+    border: none;
+    color: white
+  }
+
+  input::placeholder {
+    color: white;
+  }
+}
+
+.project-name-update {
+  display: inline-block !important;
+  width: 12%;
+  height: 1.9rem !important;
+  overflow: hidden;
+
+  button {
+    display: inline-block !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 1.7rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+.project-header,
+.edit-project-name {
+  background-image: url(./project-logo.svg);
+  background-position: 1rem center;
+  background-repeat: no-repeat;
+  padding-left: 3.1rem !important;
+  padding-right: 0 !important;
+}

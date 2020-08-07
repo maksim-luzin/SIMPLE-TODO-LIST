@@ -1,0 +1,51 @@
+<svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      version="1.1"
+      viewBox="0 0 16 16"
+    >
+      <g
+        strokeLinecap="butt"
+        strokeLinejoin="miter"
+        strokeOpacity="1"
+        transform="translate(0 -292.767)"
+      >
+        <path
+          fill="none"
+          fillOpacity="1"
+          stroke="none"
+          strokeWidth="1"
+          d="M0 294.767h4l1-2h6l1 2h4v2h-2v10l-2 2H4l-2-2v-10H0z"
+        ></path>
+        <g>
+          <path
+            fill="#007bff"
+            fillOpacity="1"
+            stroke="#fff"
+            strokeWidth="0.875"
+            d="M1 307.767v-4.375l9.625-9.625h1.75L15 296.392v1.75l-9.625 9.625z"
+          ></path>
+          <path
+            fill="#fff"
+            fillOpacity="1"
+            stroke="none"
+            strokeWidth="0.6"
+            d="M1 304.767h3v3H1z"
+          ></path>
+          <path
+            fill="#fff"
+            fillOpacity="1"
+            stroke="none"
+            strokeWidth="1"
+            d="M10 293.767l5 5v-2l-3-3z"
+          ></path>
+          <path
+            fill="none"
+            stroke="#fff"
+            strokeWidth="0.897"
+            d="M1.79 304.153L5 307.25l-3.25-.06z"
+          ></path>
+        </g>
+      </g>
+    </svg>
