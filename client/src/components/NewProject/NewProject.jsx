@@ -5,14 +5,14 @@ import { Button } from 'react-bootstrap';
 
 import './new-project.scss'
 
-const NewProject = ({ }) => (
+const NewProject = ({ addProject }) => (
   <div className="text-center new-project">
-    <Button className="btn btn-primary btn-lg font-weight-bold">
+    <Button className="btn btn-primary btn-lg font-weight-bold" onClick={addProject}>
       Add TODO List
-      </Button>
+    </Button>
   </div>
 )
 
-NewProject.propTypes = {};
+NewProject.propTypes = { addProject: PropTypes.func.isRequired };
 
 export default NewProject;
