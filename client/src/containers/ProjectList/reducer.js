@@ -1,5 +1,6 @@
 import {
-  ADD_PROJECT
+  ADD_PROJECT,
+  EDIT_PROJECTT_NAME
 } from './actionTypes';
 
 
@@ -9,9 +10,16 @@ export default (state = {}, action) => {
       return {
         ...state,
         projects: [
-          action.payload,
-          ...state.projects
-        ]
+          ...state.projects,
+          action.payload
+        ],
+        editProjectNameId: action.payload.id
+      };
+
+    case EDIT_PROJECTT_NAME:
+      return {
+        ...state,
+        editProjectNameId: action.payload.id
       };
 
     default:
