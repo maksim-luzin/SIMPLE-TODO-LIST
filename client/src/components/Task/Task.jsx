@@ -12,7 +12,8 @@ const Task = ({
   task,
   taskDone,
   edit,
-  editTaskDescription
+  editTaskDescription,
+  updateTaskDescription
 }) => {
   const { id, done, description, indexTask } = task;
   const [getDescription, setDescription] = useState(description);
@@ -48,6 +49,18 @@ const Task = ({
   row-${handleRowTextArea(getDescription) || 1} 
   ${done && 'task-done-description'}`;
 
+  const handleUpdateTaskDescription = event => {
+    try {
+      event.preventDefault();
+      if (!getDescription.trim()) {
+        return;
+      }
+      updateTaskDescription({ id, projectId, indexTask, description: getDescription.trim() });
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
+
   return (
     <tr className="task">
       <td className="task-done">
@@ -77,6 +90,7 @@ const Task = ({
             <div className="input-group-append">
               <Button
                 className="task-descripton-update-ok"
+                onClick={handleUpdateTaskDescription}
               >
                 Update
               </Button>
@@ -105,7 +119,8 @@ Task.propTypes = {
   task: PropTypes.string.isRequired,
   taskDone: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
-  editTaskDescription: PropTypes.func.isRequired
+  editTaskDescription: PropTypes.func.isRequired,
+  updateTaskDescription: PropTypes.func.isRequired
 };
 
 export default Task;

@@ -7,7 +7,8 @@ import {
   CLOSE_CONFIRM,
   ADD_TASK,
   TASK_DONE,
-  EDIT_TASK_DESCRIPTION
+  EDIT_TASK_DESCRIPTION,
+  UPDATE_TASK_DESCRIPTION
 } from './actionTypes';
 
 
@@ -95,6 +96,29 @@ export default (state = {}, action) => {
         ...state,
         editTaskDescriptionProjectId: action.payload.projectId,
         editTaskDescriptionTaskId: action.payload.id
+      };
+
+    case UPDATE_TASK_DESCRIPTION:
+      indexProject = search(state.projects, action.payload.projectId);
+      return {
+        ...state,
+        editTaskDescriptionProjectId: 0,
+        editTaskDescriptionTaskId: 0,
+        projects: [
+          ...state.projects.slice(0, indexProject),
+          {
+            ...state.projects[indexProject],
+            tasks: [
+              ...state.projects[indexProject].tasks.slice(0, action.payload.indexTask),
+              {
+                ...state.projects[indexProject].tasks[action.payload.indexTask],
+                description: action.payload.description
+              },
+              ...state.projects[indexProject].tasks.slice(action.payload.indexTask + 1)
+            ]
+          },
+          ...state.projects.slice(indexProject + 1)
+        ]
       };
 
     default:

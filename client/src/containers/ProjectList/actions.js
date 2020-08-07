@@ -7,7 +7,8 @@ import {
   CLOSE_CONFIRM,
   ADD_TASK,
   TASK_DONE,
-  EDIT_TASK_DESCRIPTION
+  EDIT_TASK_DESCRIPTION,
+  UPDATE_TASK_DESCRIPTION
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -109,4 +110,13 @@ export const editTaskDescription = editTask => async (dispatch, getRootState = {
     return;
   }
   dispatch(editTaskDescriptionAction(editTask));
+};
+
+const updateTaskDescriptionAction = taskDescription => ({
+  type: UPDATE_TASK_DESCRIPTION,
+  payload: taskDescription
+});
+
+export const updateTaskDescription = taskDescription => async dispatch => {
+  dispatch(updateTaskDescriptionAction(taskDescription));
 };
