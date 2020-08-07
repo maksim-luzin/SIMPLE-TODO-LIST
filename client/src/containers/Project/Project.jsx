@@ -14,7 +14,8 @@ import {
   editProjectName,
   updateProjectName,
   deleteProject,
-  modalConfirmAction
+  modalConfirmAction,
+  addTask
 } from '../ProjectList/actions';
 
 import './project.scss'
@@ -25,7 +26,8 @@ const Project = ({
   editProjectNameId,
   updateProjectName: updateProject,
   deleteProject: deleteProjectAction,
-  modalConfirmAction: modalConfirm
+  modalConfirmAction: modalConfirm,
+  addTask: addTaskAction
 }) => {
   return (
     <Card className="mb-5 project">
@@ -38,7 +40,10 @@ const Project = ({
         deleteProject={deleteProjectAction}
         modalConfirmAction={modalConfirm}
       />
-      <NewTask />
+      <NewTask
+        addTask={addTaskAction}
+        id={project.id}
+      />
       <Table responsive className="table mb-0 table-bordered table-hover">
         <colgroup>
           <col className="tasks-done" />
@@ -61,7 +66,8 @@ Project.propTypes = {
   editProjectNameId: PropTypes.number.isRequired,
   updateProjectName: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
-  modalConfirmAction: PropTypes.func.isRequired
+  modalConfirmAction: PropTypes.func.isRequired,
+  addTask: PropTypes.func.isRequired
 };
 
 const mapStateToProps = rootState => ({
@@ -72,7 +78,8 @@ const actions = {
   editProjectName,
   updateProjectName,
   deleteProject,
-  modalConfirmAction
+  modalConfirmAction,
+  addTask
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

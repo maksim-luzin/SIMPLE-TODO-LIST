@@ -75,6 +75,7 @@ const ProjectManeger = ({
         </div>
         <div className="project-edit" onClick={() => editProjectName({ id })}>&nbsp;</div>
         <div className="project-delete" onClick={handleDeleteProject}>&nbsp;</div>
+        <NotificationContainer />
       </Card.Header>
     )
 }

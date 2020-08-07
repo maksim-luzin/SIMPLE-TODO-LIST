@@ -4,7 +4,8 @@ import {
   UPDATE_PROJECT_NAME,
   DELETE_PROJECT,
   MODAL_CONFIRM,
-  CLOSE_CONFIRM
+  CLOSE_CONFIRM,
+  ADD_TASK
 } from './actionTypes';
 
 
@@ -68,6 +69,23 @@ export default (state = {}, action) => {
         modal: false,
         deleteFunction: () => { },
         deleteData: {}
+      };
+
+    case ADD_TASK:
+      indexProject = search(state.projects, action.payload.projectId);
+      return {
+        ...state,
+        projects: [
+          ...state.projects.slice(0, indexProject),
+          {
+            ...state.projects[indexProject],
+            tasks: [
+              ...state.projects[indexProject].tasks,
+              action.payload.task
+            ]
+          },
+          ...state.projects.slice(indexProject + 1)
+        ]
       };
 
     default:

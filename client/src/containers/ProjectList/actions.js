@@ -4,7 +4,8 @@ import {
   UPDATE_PROJECT_NAME,
   DELETE_PROJECT,
   MODAL_CONFIRM,
-  CLOSE_CONFIRM
+  CLOSE_CONFIRM,
+  ADD_TASK
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -65,3 +66,24 @@ export const modalConfirmAction = deleted => ({
 export const closeConfirmAction = () => ({
   type: CLOSE_CONFIRM
 });
+
+const addTaskAction = newTask => ({
+  type: ADD_TASK,
+  payload: newTask
+});
+
+export const addTask = newTask => async (dispatch, getRootState = {}) => {
+  if (getRootState().projects.editProjectNameId) {
+    return;
+  }
+  const projectNumber = search(getRootState().projects.projects, newTask.projectId);
+  const indexTask = getRootState().projects.projects[projectNumber].tasks.length;
+  const id = Math.floor((1e8 * Math.random()));
+  const task = {
+    ...newTask,
+    id,
+    done: false,
+    indexTask
+  };
+  dispatch(addTaskAction({ projectId: newTask.projectId, task }));
+};
