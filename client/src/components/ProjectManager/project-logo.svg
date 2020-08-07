@@ -1,0 +1,45 @@
+<svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="23"
+      version="1.1"
+      viewBox="0 0 24 23"
+    >
+      <g>
+        <path
+          fill="none"
+          stroke="#000"
+          strokeLinecap="butt"
+          strokeLinejoin="miter"
+          strokeOpacity="1"
+          strokeWidth="1.041"
+          d="M5 10h13v1H5z"
+        ></path>
+        <path
+          fill="none"
+          stroke="#000"
+          strokeLinecap="butt"
+          strokeLinejoin="miter"
+          strokeOpacity="1"
+          strokeWidth="1.041"
+          d="M5 14h13v1H5z"
+        ></path>
+        <path
+          fill="none"
+          stroke="#000"
+          strokeLinecap="butt"
+          strokeLinejoin="miter"
+          strokeOpacity="1"
+          strokeWidth="1.041"
+          d="M5 18h13v1H5z"
+        ></path>
+        <path
+          fill="#000"
+          fillOpacity="1"
+          strokeWidth="0.032"
+          d="M.86 22.105l-.844-.844V4.61l.402-.805.402-.806h4.183V.98h.979V3h3.03V.98h.979V3h3.03V.98H14V3l1.507-.008 1.508-.008.008-1.003.008-1.002h.946V3h4.215l.402.806.403.805V21.26l-.845.845-.845.844H1.704zm20.503-.757l.655-.655V5.255l-.656-.654-.655-.655-1.357.008-1.357.008-.008 1.002-.008 1.003h-.946l-.008-1.003-.008-1.002-1.508-.008L14 3.946v2.02h-.979v-2.02h-3.03v2.02h-.979v-2.02h-3.03v2.02h-.979v-2.02h-2.7l-.654.656-.655.655V20.692l.655.656.655.655h18.403z"
+          opacity="1"
+        ></path>
+      </g>
+    </svg>
+

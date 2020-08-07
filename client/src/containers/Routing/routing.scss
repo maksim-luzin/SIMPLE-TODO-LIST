@@ -1,0 +1,23 @@
+.custom-header {
+  text-align: center;
+  padding-top: 3.7rem;
+  padding-bottom: 2.5rem;
+
+  p {
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+  }
+}
+
+.custom-container {
+  min-height: 100vh;
+  max-height: 1020px;
+  overflow-y: hidden;
+}
+
+.custom-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  padding-top: 2.4rem;
+  padding-bottom: 1.1rem;
+}

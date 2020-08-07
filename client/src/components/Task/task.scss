@@ -1,0 +1,138 @@
+.tasks-done {
+  width: 6.2%;
+  border-right-color: #efdadf;
+  border-right-style: double;
+  border-right-width: 0.5em;
+  text-align: center !important;
+}
+
+
+.tasks-description {
+  width: 77%;
+}
+
+.tasks-managment {
+  width: 16.86%;
+  line-height: 1.25em !important;
+}
+
+.task-descripton {
+  resize: none !important;
+  overflow: hidden;
+  font-size: 0.9rem !important;
+  font-weight: bold !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.task-descripton:disabled {
+  background-color: white !important;
+}
+
+.task:hover .task-descripton {
+  background-color: #eeeeee !important;
+}
+
+
+
+.row-1 {
+  height: 1.25rem !important
+}
+
+.row-2 {
+  height: 2.5rem !important
+}
+
+.row-3 {
+  height: 3.75rem !important
+}
+
+.row-4 {
+  height: 5rem !important
+}
+
+.row-5 {
+  height: 6.25rem !important
+}
+
+.row-6 {
+  height: 7.5rem !important
+}
+
+.row-7 {
+  height: 8.75rem !important
+}
+
+.row-8 {
+  height: 10rem !important
+}
+
+.row-9 {
+  height: 11.25rem !important
+}
+
+.row-10 {
+  height: 12.5rem !important
+}
+
+
+.task-management {
+  display: none;
+}
+
+.task:hover .task-management {
+  display: block;
+}
+
+.move-task,
+.task-edit,
+.task-delete {
+  display: inline-block;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.move-task {
+  height: 1.25em;
+  width: 29%;
+  margin-bottom: -0.2em;
+  background-image: url(./task-move.svg);
+}
+
+.task-up,
+.task-down {
+  width: 100%;
+  height: 50% !important;
+}
+
+.task-edit {
+  width: 35%;
+  border-right: solid black 1px;
+  border-left: solid black 1px;
+  background-image: url(./task-edit.svg);
+}
+
+.task-delete {
+  width: 25%;
+  background-image: url(./task-delete.svg);
+}
+
+.task-done-description {
+  text-decoration: line-through;
+  text-decoration-color: red;
+  text-decoration-style: solid 2px;
+}
+ 
+.task-descripton-update {
+  padding: 0 !important;
+}
+
+.task-descripton-update-ok {
+  display: block;
+  font-size: 0.8rem !important;
+  line-height: 0.9rem;
+  font-weight: bold;
+  padding: 0.1rem !important;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
