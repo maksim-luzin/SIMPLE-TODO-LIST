@@ -6,7 +6,8 @@ import {
   MODAL_CONFIRM,
   CLOSE_CONFIRM,
   ADD_TASK,
-  TASK_DONE
+  TASK_DONE,
+  EDIT_TASK_DESCRIPTION
 } from './actionTypes';
 
 
@@ -87,6 +88,13 @@ export default (state = {}, action) => {
           },
           ...state.projects.slice(indexProject + 1)
         ]
+      };
+
+    case EDIT_TASK_DESCRIPTION:
+      return {
+        ...state,
+        editTaskDescriptionProjectId: action.payload.projectId,
+        editTaskDescriptionTaskId: action.payload.id
       };
 
     default:

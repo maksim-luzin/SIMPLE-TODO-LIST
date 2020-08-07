@@ -10,12 +10,12 @@ import './task.scss'
 const Task = ({
   projectId,
   task,
-  taskDone
+  taskDone,
+  edit,
+  editTaskDescription
 }) => {
+  const { id, done, description, indexTask } = task;
   const [getDescription, setDescription] = useState(description);
-
-  const styleTaskDescription = `strong task-descripton 
-  ${done && 'task-done-description'}`;
 
   const handleTaskDone = event => {
     try {
@@ -26,10 +26,32 @@ const Task = ({
     }
   };
 
+  const handleEditTaskDescription = event => {
+    try {
+      event.preventDefault();
+      if (done) {
+        return;
+      }
+      editTaskDescription({ projectId, id });
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
+
+  const handleRowTextArea = descriptions => {
+    let rows = descriptions.split(/$/gm);
+    rows = rows.reduce((numberOfRows, row) => (Math.ceil(row.length / 50) || 1) + numberOfRows, 0);
+    return rows;
+  };
+
+  const styleTaskDescription = `strong task-descripton 
+  row-${handleRowTextArea(getDescription) || 1} 
+  ${done && 'task-done-description'}`;
+
   return (
     <tr className="task">
-      <td className="task-done" onClick={!edit ? handleTaskDone : () => { }} >
-        <input type="checkbox" checked={done} />
+      <td className="task-done">
+        <input type="checkbox" checked={done} onClick={!edit ? handleTaskDone : () => { }} />
       </td>
       <td>
         <Form.Group>
@@ -42,6 +64,7 @@ const Task = ({
             autoFocus={edit}
             as="textarea"
             className={styleTaskDescription}
+            disabled={!edit}
             placeholder="Start typing here to create a task..."
             value={getDescription}
             onChange={ev => setDescription(ev.target.value)}
@@ -64,24 +87,25 @@ const Task = ({
           <td>
             <div className="task-management">
               <div className="move-task">
-                <div className="task-up"></div>
-                <div className="task-down"></div>
+                <div className="task-up">{' '}</div>
+                <div className="task-down">{' '}</div>
               </div>
-              <div className="task-edit">&nbsp;</div>
+              <div className="task-edit" onClick={handleEditTaskDescription}>&nbsp;</div>
               <div className="task-delete">&nbsp;</div>
             </div>
           </td>
-        )
-      }
+        )}
       <NotificationContainer />
     </tr>
-  )
+  );
 };
 
 Task.propTypes = {
   projectId: PropTypes.number.isRequired,
   task: PropTypes.string.isRequired,
-  taskDone: PropTypes.func.isRequired
+  taskDone: PropTypes.func.isRequired,
+  edit: PropTypes.bool.isRequired,
+  editTaskDescription: PropTypes.func.isRequired
 };
 
 export default Task;

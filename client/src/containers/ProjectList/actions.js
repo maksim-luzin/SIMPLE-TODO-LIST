@@ -6,7 +6,8 @@ import {
   MODAL_CONFIRM,
   CLOSE_CONFIRM,
   ADD_TASK,
-  TASK_DONE
+  TASK_DONE,
+  EDIT_TASK_DESCRIPTION
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -15,7 +16,7 @@ const addProjectAction = project => ({
 });
 
 export const addProject = () => async (dispatch, getRootState = []) => {
-  if (getRootState().projects.editProjectNameId) {
+  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
     return;
   }
   const name = 'New Project';
@@ -35,7 +36,7 @@ const editProjectNameAction = id => ({
 });
 
 export const editProjectName = id => (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId) {
+  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
     return;
   }
   dispatch(editProjectNameAction(id));
@@ -74,7 +75,7 @@ const addTaskAction = newTask => ({
 });
 
 export const addTask = newTask => async (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId) {
+  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
     return;
   }
   const projectNumber = search(getRootState().projects.projects, newTask.projectId);
@@ -96,4 +97,16 @@ const taskDoneAction = done => ({
 
 export const taskDone = done => async dispatch => {
   dispatch(taskDoneAction(done));
+};
+
+const editTaskDescriptionAction = editTask => ({
+  type: EDIT_TASK_DESCRIPTION,
+  payload: editTask
+});
+
+export const editTaskDescription = editTask => async (dispatch, getRootState = {}) => {
+  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
+    return;
+  }
+  dispatch(editTaskDescriptionAction(editTask));
 };
