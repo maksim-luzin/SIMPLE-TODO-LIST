@@ -5,7 +5,8 @@ import {
   DELETE_PROJECT,
   MODAL_CONFIRM,
   CLOSE_CONFIRM,
-  ADD_TASK
+  ADD_TASK,
+  TASK_DONE
 } from './actionTypes';
 
 

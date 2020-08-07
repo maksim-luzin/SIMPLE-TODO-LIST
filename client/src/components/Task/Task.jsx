@@ -1,19 +1,37 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 import { Form, Button, InputGroup } from 'react-bootstrap';
 
 import './task.scss'
 
-const Task = ({ }) => {
+const Task = ({
+  projectId,
+  task,
+  taskDone
+}) => {
   const [getDescription, setDescription] = useState(description);
+
+  const styleTaskDescription = `strong task-descripton 
+  ${done && 'task-done-description'}`;
+
+  const handleTaskDone = event => {
+    try {
+      event.preventDefault();
+      taskDone({ projectId, id, indexTask, done: !done });
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
+
   return (
     <tr className="task">
       <td className="task-done" onClick={!edit ? handleTaskDone : () => { }} >
         <input type="checkbox" checked={done} />
       </td>
-      <td >
+      <td>
         <Form.Group>
           <Form.Control
             name="taskDescription"
@@ -23,13 +41,13 @@ const Task = ({ }) => {
             maxLength="255"
             autoFocus={edit}
             as="textarea"
-            className="task-descripton"
+            className={styleTaskDescription}
             placeholder="Start typing here to create a task..."
             value={getDescription}
             onChange={ev => setDescription(ev.target.value)}
           />
         </Form.Group>
-      </td >
+      </td>
       {edit
         ? (
           <td classame="task-descripton-update">
@@ -55,10 +73,15 @@ const Task = ({ }) => {
           </td>
         )
       }
-    </tr >
+      <NotificationContainer />
+    </tr>
   )
 };
 
-Task.propTypes = {};
+Task.propTypes = {
+  projectId: PropTypes.number.isRequired,
+  task: PropTypes.string.isRequired,
+  taskDone: PropTypes.func.isRequired
+};
 
 export default Task;

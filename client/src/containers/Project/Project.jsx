@@ -15,7 +15,8 @@ import {
   updateProjectName,
   deleteProject,
   modalConfirmAction,
-  addTask
+  addTask,
+  taskDone
 } from '../ProjectList/actions';
 
 import './project.scss'
@@ -27,7 +28,8 @@ const Project = ({
   updateProjectName: updateProject,
   deleteProject: deleteProjectAction,
   modalConfirmAction: modalConfirm,
-  addTask: addTaskAction
+  addTask: addTaskAction,
+  taskDone: taskDoneAction
 }) => {
   return (
     <Card className="mb-5 project">
@@ -52,7 +54,11 @@ const Project = ({
         </colgroup>
         <tbody>
           {project.tasks.map(task => (
-            <Task />
+            <Task
+              projectId={project.id}
+              task={task}
+              taskDone={taskDoneAction}
+            />
           ))}
         </tbody>
       </Table>
@@ -67,7 +73,8 @@ Project.propTypes = {
   updateProjectName: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
   modalConfirmAction: PropTypes.func.isRequired,
-  addTask: PropTypes.func.isRequired
+  addTask: PropTypes.func.isRequired,
+  taskDone: PropTypes.func.isRequired
 };
 
 const mapStateToProps = rootState => ({
@@ -79,7 +86,8 @@ const actions = {
   updateProjectName,
   deleteProject,
   modalConfirmAction,
-  addTask
+  addTask,
+  taskDone
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

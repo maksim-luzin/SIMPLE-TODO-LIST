@@ -5,7 +5,8 @@ import {
   DELETE_PROJECT,
   MODAL_CONFIRM,
   CLOSE_CONFIRM,
-  ADD_TASK
+  ADD_TASK,
+  TASK_DONE
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -86,4 +87,13 @@ export const addTask = newTask => async (dispatch, getRootState = {}) => {
     indexTask
   };
   dispatch(addTaskAction({ projectId: newTask.projectId, task }));
+};
+
+const taskDoneAction = done => ({
+  type: TASK_DONE,
+  payload: done
+});
+
+export const taskDone = done => async dispatch => {
+  dispatch(taskDoneAction(done));
 };
