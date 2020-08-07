@@ -8,7 +8,8 @@ import {
   ADD_TASK,
   TASK_DONE,
   EDIT_TASK_DESCRIPTION,
-  UPDATE_TASK_DESCRIPTION
+  UPDATE_TASK_DESCRIPTION,
+  DELETE_TASK
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -119,4 +120,21 @@ const updateTaskDescriptionAction = taskDescription => ({
 
 export const updateTaskDescription = taskDescription => async dispatch => {
   dispatch(updateTaskDescriptionAction(taskDescription));
+};
+
+const deleteTaskAction = task => ({
+  type: DELETE_TASK,
+  payload: task
+});
+
+export const deleteTask = taskDelete => async (dispatch, getRootState = {}) => {
+  const indexProject = search(getRootState().projects.projects, taskDelete.projectId);
+  const tasksUpdate = getRootState()
+    .projects
+    .projects[indexProject]
+    .tasks
+    .slice(taskDelete.indexTask + 1)
+    .map(task => ({ ...task, indexTask: task.indexTask - 1 }));
+  const numberOfTasks = getRootState().projects.projects[indexProject].tasks.length;
+  dispatch(deleteTaskAction({ ...taskDelete, tasksUpdate }));
 };

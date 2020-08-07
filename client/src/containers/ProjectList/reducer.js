@@ -8,7 +8,8 @@ import {
   ADD_TASK,
   TASK_DONE,
   EDIT_TASK_DESCRIPTION,
-  UPDATE_TASK_DESCRIPTION
+  UPDATE_TASK_DESCRIPTION,
+  DELETE_TASK
 } from './actionTypes';
 
 
@@ -119,6 +120,26 @@ export default (state = {}, action) => {
           },
           ...state.projects.slice(indexProject + 1)
         ]
+      };
+
+    case DELETE_TASK:
+      indexProject = search(state.projects, action.payload.projectId);
+      return {
+        ...state,
+        projects: [
+          ...state.projects.slice(0, indexProject),
+          {
+            ...state.projects[indexProject],
+            tasks: [
+              ...state.projects[indexProject].tasks.slice(0, action.payload.indexTask),
+              ...action.payload.tasksUpdate
+            ]
+          },
+          ...state.projects.slice(indexProject + 1)
+        ],
+        modal: false,
+        deleteFunction: () => { },
+        deleteData: {}
       };
 
     default:

@@ -13,7 +13,9 @@ const Task = ({
   taskDone,
   edit,
   editTaskDescription,
-  updateTaskDescription
+  updateTaskDescription,
+  modalConfirmAction,
+  deleteTask
 }) => {
   const { id, done, description, indexTask } = task;
   const [getDescription, setDescription] = useState(description);
@@ -56,6 +58,15 @@ const Task = ({
         return;
       }
       updateTaskDescription({ id, projectId, indexTask, description: getDescription.trim() });
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
+
+  const handleDeleteTask = event => {
+    try {
+      event.preventDefault();
+      modalConfirmAction({ deleteFunction: deleteTask, deleteData: { projectId, id, indexTask } });
     } catch (err) {
       NotificationManager.error(err.message);
     }
@@ -105,7 +116,7 @@ const Task = ({
                 <div className="task-down">{' '}</div>
               </div>
               <div className="task-edit" onClick={handleEditTaskDescription}>&nbsp;</div>
-              <div className="task-delete">&nbsp;</div>
+              <div className="task-delete" onClick={handleDeleteTask}>&nbsp;</div>
             </div>
           </td>
         )}
@@ -120,7 +131,9 @@ Task.propTypes = {
   taskDone: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
   editTaskDescription: PropTypes.func.isRequired,
-  updateTaskDescription: PropTypes.func.isRequired
+  updateTaskDescription: PropTypes.func.isRequired,
+  modalConfirmAction: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired
 };
 
 export default Task;
