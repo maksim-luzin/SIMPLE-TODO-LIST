@@ -1,7 +1,8 @@
 import {
   ADD_PROJECT,
   EDIT_PROJECTT_NAME,
-  UPDATE_PROJECT_NAME
+  UPDATE_PROJECT_NAME,
+  DELETE_PROJECT
 } from './actionTypes';
 
 
@@ -36,6 +37,19 @@ export default (state = {}, action) => {
           ...state.projects.slice(indexProject + 1)
         ],
         editProjectNameId: 0
+      };
+
+    case DELETE_PROJECT:
+      indexProject = search(state.projects, action.payload.id);
+      return {
+        ...state,
+        projects: [
+          ...state.projects.slice(0, indexProject),
+          ...state.projects.slice(indexProject + 1)
+        ],
+        modal: false,
+        deleteFunction: () => { },
+        deleteData: {}
       };
 
     default:

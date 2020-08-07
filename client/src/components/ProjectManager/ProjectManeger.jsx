@@ -12,7 +12,8 @@ const ProjectManeger = ({
   name,
   editProjectName,
   edit,
-  updateProjectName
+  updateProjectName,
+  deleteProject
 }) => {
   const [getName, setName] = useState(name);
 
@@ -23,6 +24,15 @@ const ProjectManeger = ({
         return;
       }
       updateProjectName({ id, name: getName.trim() });
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
+
+  const handleDeleteProject = event => {
+    try {
+      event.preventDefault();
+      modalConfirmAction({ deleteFunction: deleteProject, deleteData: { id } });
     } catch (err) {
       NotificationManager.error(err.message);
     }
@@ -63,7 +73,7 @@ const ProjectManeger = ({
           {getName}
         </div>
         <div className="project-edit" onClick={() => editProjectName({ id })}>&nbsp;</div>
-        <div className="project-delete" >&nbsp;</div>
+        <div className="project-delete" onClick={handleDeleteProject}>&nbsp;</div>
       </Card.Header>
     )
 }
@@ -73,7 +83,8 @@ ProjectManeger.propTypes = {
   name: PropTypes.string.isRequired,
   editProjectName: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired,
-  updateProjectName: PropTypes.func.isRequired
+  updateProjectName: PropTypes.func.isRequired,
+  deleteProject: PropTypes.func.isRequired
 };
 
 export default ProjectManeger;

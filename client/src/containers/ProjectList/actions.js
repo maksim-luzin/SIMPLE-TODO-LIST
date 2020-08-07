@@ -1,7 +1,8 @@
 import {
   ADD_PROJECT,
   EDIT_PROJECTT_NAME,
-  UPDATE_PROJECT_NAME
+  UPDATE_PROJECT_NAME,
+  DELETE_PROJECT
 } from './actionTypes';
 
 const addProjectAction = project => ({
@@ -43,4 +44,13 @@ const updateProjectNameAction = projectName => ({
 
 export const updateProjectName = updateNameProject => async dispatch => {
   dispatch(updateProjectNameAction(updateNameProject));
+};
+
+const deleteProjectAction = id => ({
+  type: DELETE_PROJECT,
+  payload: id
+});
+
+export const deleteProject = id => async dispatch => {
+  dispatch(deleteProjectAction(id));
 };
