@@ -19,7 +19,7 @@ import {
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
 const permissionMidelware = rootState => Boolean(
   rootState.projects.editProjectNameId || rootState.projects.editTaskDescriptionProjectId
-)
+);
 
 const addProjectAction = project => ({
   type: ADD_PROJECT,
@@ -154,6 +154,11 @@ export const deleteTask = taskDelete => async (dispatch, getRootState = {}) => {
   dispatch(deleteTaskAction({ ...taskDelete, tasksUpdate }));
 };
 
+const tasksServerMove = tasksMove => tasksMove.map(task => ({
+  id: task.id,
+  indexTask: task.indexTask
+}));
+
 const upTaskAction = upTask => ({
   type: UP_TASK,
   payload: upTask
@@ -174,7 +179,7 @@ export const upTask = up => async (dispatch, getRootState = {}) => {
     }
   ];
 
-  await taskService.moveTask(tasksServerMove);
+  await taskService.moveTask(tasksServerMove(tasksMove));
   dispatch(upTaskAction({ indexProject, indexTask: up.indexTask, tasksMove }));
 };
 
@@ -200,5 +205,6 @@ export const downTask = down => async (dispatch, getRootState = {}) => {
     }
   ];
 
+  await taskService.moveTask(tasksServerMove(tasksMove));
   dispatch(downTaskAction({ indexProject, indexTask: down.indexTask, tasksMove }));
 };
