@@ -13,16 +13,23 @@ app.use('/api/');
 
 routes(app);
 
-const staticPath = path.resolve('../client/build');
+const staticPath = process.env.NODE_ENV === 'production'
+  ? './dist/client'
+  : '../client/build';
 app.use(express.static(staticPath));
 
 app.get('*', (req, res) => {
-  res.write(fs.readFileSync('../client/build/index.html'));
+  res.write(fs.readFileSync(`${staticPath}/index.html`));
   res.end();
 });
 
 app.use(errorHandlerMiddleware);
-app.listen(env.app.port, () => {
+
+const port = process.env.NODE_ENV === 'production'
+  ? process.env.PORT
+  : env.app.port
+
+app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`Server listening on port ${env.app.port}!`);
+  console.log(`Server listening on port ${port}!`);
 });
