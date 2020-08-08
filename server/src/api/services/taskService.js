@@ -8,3 +8,9 @@ export const addTask = async task => {
   if (!newTask && !newTask.id) throw Error('Project add failed');
   return { id: newTask.id };
 };
+
+export const updateTask = async (id, task) => {
+  const updatedTask = await taskRepository.updateById(id, task);
+  if (!updatedTask.toJSON()) throw Error('Task update failed');
+  return;
+};

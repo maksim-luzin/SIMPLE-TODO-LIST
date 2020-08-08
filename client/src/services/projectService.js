@@ -18,7 +18,7 @@ export const updateProjectName = async updateNameProject => {
     type: 'PUT',
     request
   });
-  return response.json();
+  return;
 };
 
 export const deleteProject = async request => {
@@ -26,5 +26,5 @@ export const deleteProject = async request => {
     endpoint: `/api/projects/${request.id}`,
     type: 'DELETE'
   });
-  return response.json();
+  return;
 };

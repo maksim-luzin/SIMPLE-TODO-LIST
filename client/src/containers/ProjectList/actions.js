@@ -106,6 +106,7 @@ const taskDoneAction = done => ({
 });
 
 export const taskDone = done => async dispatch => {
+  await taskService.updateTask({ id: done.id, done: done.done });
   dispatch(taskDoneAction(done));
 };
 

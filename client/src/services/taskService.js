@@ -8,3 +8,12 @@ export const addTask = async request => {
   });
   return response.json();
 };
+
+export const updateTask = async request => {
+  const response = await callWebApi({
+    endpoint: `/api/tasks/${request.id}`,
+    type: 'PUT',
+    request
+  });
+  return;
+};
