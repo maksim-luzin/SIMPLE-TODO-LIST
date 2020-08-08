@@ -89,7 +89,7 @@ export const addTask = newTask => async (dispatch, getRootState = {}) => {
 
   const projectNumber = search(getRootState().projects.projects, newTask.projectId);
   const indexTask = getRootState().projects.projects[projectNumber].tasks.length;
-  const id = Math.floor((1e8 * Math.random()));
+  const { id } = await taskService.addTask({ ...newTask, indexTask });
   const task = {
     ...newTask,
     id,
@@ -98,6 +98,7 @@ export const addTask = newTask => async (dispatch, getRootState = {}) => {
   };
   dispatch(addTaskAction({ projectId: newTask.projectId, task }));
 };
+
 
 const taskDoneAction = done => ({
   type: TASK_DONE,
