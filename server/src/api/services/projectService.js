@@ -9,3 +9,10 @@ export const addProject = async (userId, project) => {
   return { id: newProject.id };
 };
 
+export const updateProjectName = async (id, projectName) => {
+  const updateNameProject = await projectRepository.updateById(id, projectName);
+  const { name } = updateNameProject.toJSON();
+
+  if (!name && name === projectName.name) throw Error('Project update failed');
+  return { update: true };
+};

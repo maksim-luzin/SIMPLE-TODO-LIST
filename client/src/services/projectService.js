@@ -8,3 +8,15 @@ export const addProject = async request => {
   });
   return response.json();
 };
+
+export const updateProjectName = async updateNameProject => {
+  const request = {
+    name: updateNameProject.name
+  };
+  const response = await callWebApi({
+    endpoint: `/api/projects/${updateNameProject.id}`,
+    type: 'PUT',
+    request
+  });
+  return response.json();
+};

@@ -56,6 +56,10 @@ const updateProjectNameAction = projectName => ({
 });
 
 export const updateProjectName = updateNameProject => async dispatch => {
+  const updateOk = await projectService.updateProjectName({ ...updateNameProject });
+  if (!updateOk) {
+    throw Error('Project update failed');
+  }
   dispatch(updateProjectNameAction(updateNameProject));
 };
 
