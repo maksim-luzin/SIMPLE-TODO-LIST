@@ -126,6 +126,7 @@ const updateTaskDescriptionAction = taskDescription => ({
 });
 
 export const updateTaskDescription = taskDescription => async dispatch => {
+  await taskService.updateTask({ id: taskDescription.id, description: taskDescription.description });
   dispatch(updateTaskDescriptionAction(taskDescription));
 };
 
