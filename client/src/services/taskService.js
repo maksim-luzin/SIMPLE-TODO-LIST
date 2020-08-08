@@ -26,3 +26,12 @@ export const deleteTask = async request => {
   });
   return;
 };
+
+export const moveTask = async request => {
+  const response = await callWebApi({
+    endpoint: '/api/tasks/move',
+    type: 'PUT',
+    request
+  });
+  return;
+};

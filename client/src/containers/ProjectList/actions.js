@@ -160,13 +160,8 @@ const upTaskAction = upTask => ({
 });
 
 export const upTask = up => async (dispatch, getRootState = {}) => {
-  if (permissionMidelware(getRootState())) return;
+  if (permissionMidelware(getRootState()) || !up.indexTask) return;
 
-  if (getRootState().projects.editProjectNameId
-    || getRootState().projects.editTaskDescriptionProjectId
-    || !up.indexTask) {
-    return;
-  }
   const indexProject = search(getRootState().projects.projects, up.projectId);
   const tasksMove = [
     {
@@ -179,6 +174,7 @@ export const upTask = up => async (dispatch, getRootState = {}) => {
     }
   ];
 
+  await taskService.moveTask(tasksServerMove);
   dispatch(upTaskAction({ indexProject, indexTask: up.indexTask, tasksMove }));
 };
 
@@ -191,9 +187,8 @@ export const downTask = down => async (dispatch, getRootState = {}) => {
   if (permissionMidelware(getRootState())) return;
 
   const indexProject = search(getRootState().projects.projects, down.projectId);
-  if (getRootState().projects.projects[indexProject].tasks.length - 1 <= down.indexTask) {
-    return;
-  }
+  if (getRootState().projects.projects[indexProject].tasks.length - 1 <= down.indexTask) return;
+
   const tasksMove = [
     {
       ...getRootState().projects.projects[indexProject].tasks[down.indexTask + 1],

@@ -30,7 +30,17 @@ export const deleteTask = async taskDelete => {
   }).filter(task => task);
 
   await tasks.forEach(async task => {
-    await taskRepository.updateById(task.id, { indexTask: task.indexTask });
+    const moveTask = await taskRepository.updateById(task.id, { indexTask: task.indexTask });
+    if (!moveTask.toJSON()) throw Error('Error in reorganizing the project.');
+  });
+
+  return;
+};
+
+export const moveTask = async tasks => {
+  await tasks.forEach(async task => {
+    const moveTask = await taskRepository.updateById(task.id, { indexTask: task.indexTask });
+    if (!moveTask.toJSON()) throw Error('Task move failed');
   });
 
   return;
