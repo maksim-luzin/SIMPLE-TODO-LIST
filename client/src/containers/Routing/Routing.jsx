@@ -1,60 +1,57 @@
-/*eslint no-unused-expressions: "error"*/
+/* eslint no-unused-expressions: "error"*/
 import React from 'react';
-import { Route, Switch, useLocation, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ProjectList from 'src/containers/ProjectList';
 import Spinner from 'src/components/Spinner';
-import PropTypes from 'prop-types';
+import LoginPage from 'src/containers/LoginPage';
+import RegistrationPage from 'src/containers/RegistrationPage';
+import NotFound from 'src/scenes/NotFound';
 
-import './routing.scss'
+import './routing.scss';
 
-const Routing = ({
-  isLoading
-}) => {
+const Routing = ({ }) => {
 
-  let location = useLocation();
- 
   return (
-    <div className="container d-flex flex-column justify-content-center px-0 custom-container">
-      <header className="todo-list-header custom-header">
-        <h1 className="h2 py-0 font-weight-bold text-uppercase">SIMPLE TODO LISTS</h1>
-        <p className="py-0 text-uppercase">FROM RUBY GARAGE</p>
-      </header>
-      {
-        isLoading
-          ? <Spinner />
-          : (
-            <div className="d-flex flex-column justify-content-center flex-grow-1">
-              <Switch>
-                <Route exact path="/" component={ProjectList} />
-              </Switch>
-            </div>
-          )
-      }
-      <footer className="custom-footer">
-        <p className="text-white">&#169; Ruby Garage</p>
-      </footer>
+    <div>
+      <div className="container d-flex flex-column justify-content-center px-0 custom-container">
+        <header className="todo-list-header custom-header">
+          <h1 className="h2 py-0 font-weight-bold text-uppercase">SIMPLE TODO LISTS</h1>
+          <p className="py-0 text-uppercase">FROM RUBY GARAGE</p>
+        </header>
+        {
+          isLoading
+            ? <Spinner />
+            : (
+              <div className="d-flex flex-column justify-content-center flex-grow-1">
+                <Switch>
+                  <PublicRoute exact path="/login" component={LoginPage} />
+                  <PublicRoute exact path="/registration" component={RegistrationPage} />
+                  <PrivateRoute exact path="/" component={ProjectList} />
+                  <Route path="*" exact component={NotFound} />
+                </Switch>
+              </div>
+            )
+        }
+        <footer className="custom-footer">
+          <p className="text-white">&#169; Ruby Garage</p>
+        </footer>
+      </div>
     </div>
-  )
+  );
 };
 
-Routing.propTypes = {
-  isLoading: PropTypes.bool,
-};
+Routing.propTypes = {};
 
-Routing.defaultProps = {
-  isLoading: true
-};
+Routing.defaultProps = {};
 
-const actions = { loadCurrentUser, logout };
+const actions = {};
 
-const mapStateToProps = ({ profile }) => ({
-  isLoading: profile.isLoading
-});
+const mapStateToProps = ({ profile }) => ({});
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
