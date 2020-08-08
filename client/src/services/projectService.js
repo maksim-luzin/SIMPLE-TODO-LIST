@@ -20,3 +20,11 @@ export const updateProjectName = async updateNameProject => {
   });
   return response.json();
 };
+
+export const deleteProject = async request => {
+  const response = await callWebApi({
+    endpoint: `/api/projects/${request.id}`,
+    type: 'DELETE'
+  });
+  return response.json();
+};

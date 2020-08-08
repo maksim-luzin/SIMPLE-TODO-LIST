@@ -17,6 +17,9 @@ import {
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
+const permissionMidelware = rootState => Boolean(
+  rootState.projects.editProjectNameId || rootState.projects.editTaskDescriptionProjectId
+)
 
 const addProjectAction = project => ({
   type: ADD_PROJECT,
@@ -24,9 +27,7 @@ const addProjectAction = project => ({
 });
 
 export const addProject = () => async (dispatch, getRootState = []) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
   const name = 'New Project';
   const id = await projectService.addProject({ name });
 
@@ -44,9 +45,7 @@ const editProjectNameAction = id => ({
 });
 
 export const editProjectName = id => (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
   dispatch(editProjectNameAction(id));
 };
 
@@ -56,10 +55,7 @@ const updateProjectNameAction = projectName => ({
 });
 
 export const updateProjectName = updateNameProject => async dispatch => {
-  const updateOk = await projectService.updateProjectName({ ...updateNameProject });
-  if (!updateOk) {
-    throw Error('Project update failed');
-  }
+  await projectService.updateProjectName({ ...updateNameProject });
   dispatch(updateProjectNameAction(updateNameProject));
 };
 
@@ -69,6 +65,8 @@ const deleteProjectAction = id => ({
 });
 
 export const deleteProject = id => async dispatch => {
+  if (permissionMidelware(getRootState())) return;
+  await projectService.deleteProject(id);
   dispatch(deleteProjectAction(id));
 };
 
@@ -87,9 +85,8 @@ const addTaskAction = newTask => ({
 });
 
 export const addTask = newTask => async (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
+
   const projectNumber = search(getRootState().projects.projects, newTask.projectId);
   const indexTask = getRootState().projects.projects[projectNumber].tasks.length;
   const id = Math.floor((1e8 * Math.random()));
@@ -117,9 +114,7 @@ const editTaskDescriptionAction = editTask => ({
 });
 
 export const editTaskDescription = editTask => async (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
   dispatch(editTaskDescriptionAction(editTask));
 };
 
@@ -138,6 +133,7 @@ const deleteTaskAction = task => ({
 });
 
 export const deleteTask = taskDelete => async (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
   const indexProject = search(getRootState().projects.projects, taskDelete.projectId);
   const tasksUpdate = getRootState()
     .projects
@@ -154,6 +150,8 @@ const upTaskAction = upTask => ({
 });
 
 export const upTask = up => async (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+
   if (getRootState().projects.editProjectNameId
     || getRootState().projects.editTaskDescriptionProjectId
     || !up.indexTask) {
@@ -180,9 +178,8 @@ const downTaskAction = downTask => ({
 });
 
 export const downTask = down => async (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
+
   const indexProject = search(getRootState().projects.projects, down.projectId);
   if (getRootState().projects.projects[indexProject].tasks.length - 1 <= down.indexTask) {
     return;
