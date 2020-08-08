@@ -1,3 +1,5 @@
+import * as projectService from 'src/services/projectService';
+
 import {
   ADD_PROJECT,
   EDIT_PROJECTT_NAME,
@@ -26,10 +28,10 @@ export const addProject = () => async (dispatch, getRootState = []) => {
     return;
   }
   const name = 'New Project';
-  const id = Math.floor((1e8 * Math.random()));
+  const id = await projectService.addProject({ name });
 
   const project = {
-    id,
+    ...id,
     name,
     tasks: []
   };
