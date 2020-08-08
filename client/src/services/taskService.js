@@ -17,3 +17,12 @@ export const updateTask = async request => {
   });
   return;
 };
+
+export const deleteTask = async request => {
+  const response = await callWebApi({
+    endpoint: `/api/tasks/${request.id}`,
+    type: 'DELETE',
+    request
+  });
+  return;
+};

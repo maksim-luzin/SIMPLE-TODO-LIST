@@ -144,6 +144,13 @@ export const deleteTask = taskDelete => async (dispatch, getRootState = {}) => {
     .tasks
     .slice(taskDelete.indexTask + 1)
     .map(task => ({ ...task, indexTask: task.indexTask - 1 }));
+  const numberOfTasks = getRootState().projects.projects[indexProject].tasks.length;
+  await taskService.deleteTask({
+    id: taskDelete.id,
+    projectId: taskDelete.projectId,
+    indexTask: taskDelete.indexTask,
+    numberOfTasks
+  });
   dispatch(deleteTaskAction({ ...taskDelete, tasksUpdate }));
 };
 

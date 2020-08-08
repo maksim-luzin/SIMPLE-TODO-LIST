@@ -10,5 +10,8 @@ router
   .put('/:id', (req, res, next) => taskService.updateTask(req.params.id, req.body)
     .then(task => res.send(task))
     .catch(next))
+  .delete('/:id', (req, res, next) => taskService.deleteTask(req.body)
+    .then(success => res.send(success))
+    .catch(next));
 
 export default router;
