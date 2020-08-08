@@ -14,8 +14,10 @@ import {
   DOWN_TASK
 } from './actionTypes';
 
+const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
 
 export default (state = {}, action) => {
+  let indexProject = null;
   switch (action.type) {
     case ADD_PROJECT:
       return {
@@ -88,6 +90,27 @@ export default (state = {}, action) => {
             tasks: [
               ...state.projects[indexProject].tasks,
               action.payload.task
+            ]
+          },
+          ...state.projects.slice(indexProject + 1)
+        ]
+      };
+
+    case TASK_DONE:
+      indexProject = search(state.projects, action.payload.projectId);
+      return {
+        ...state,
+        projects: [
+          ...state.projects.slice(0, indexProject),
+          {
+            ...state.projects[indexProject],
+            tasks: [
+              ...state.projects[indexProject].tasks.slice(0, action.payload.indexTask),
+              {
+                ...state.projects[indexProject].tasks[action.payload.indexTask],
+                done: action.payload.done
+              },
+              ...state.projects[indexProject].tasks.slice(action.payload.indexTask + 1)
             ]
           },
           ...state.projects.slice(indexProject + 1)
@@ -180,5 +203,5 @@ export default (state = {}, action) => {
 
     default:
       return state;
-  };
+  }
 };

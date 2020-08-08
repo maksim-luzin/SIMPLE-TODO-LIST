@@ -5,7 +5,7 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 import { Form, Button, InputGroup } from 'react-bootstrap';
 
-import './task.scss'
+import './task.scss';
 
 const Task = ({
   projectId,

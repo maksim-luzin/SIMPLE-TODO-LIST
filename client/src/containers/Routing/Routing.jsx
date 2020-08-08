@@ -9,10 +9,20 @@ import Spinner from 'src/components/Spinner';
 import LoginPage from 'src/containers/LoginPage';
 import RegistrationPage from 'src/containers/RegistrationPage';
 import NotFound from 'src/scenes/NotFound';
+import PrivateRoute from 'src/containers/PrivateRoute';
+import PublicRoute from 'src/containers/PublicRoute';
+import { loadCurrentUser } from 'src/containers/Profile/actions';
 
 import './routing.scss';
 
-const Routing = ({ }) => {
+const Routing = ({
+  isLoading,
+  isAuthorized,
+  loadCurrentUser: loadUser
+}) => {
+  if (!isAuthorized) {
+    loadUser();
+  }
 
   return (
     <div>
@@ -43,13 +53,23 @@ const Routing = ({ }) => {
   );
 };
 
-Routing.propTypes = {};
+Routing.propTypes = {
+  isAuthorized: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  loadCurrentUser: PropTypes.func.isRequired
+};
 
-Routing.defaultProps = {};
+Routing.defaultProps = {
+  isAuthorized: false,
+  isLoading: true
+};
 
-const actions = {};
+const actions = { loadCurrentUser };
 
-const mapStateToProps = ({ profile }) => ({});
+const mapStateToProps = ({ profile }) => ({
+  isAuthorized: profile.isAuthorized,
+  isLoading: profile.isLoading
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 export default connect(

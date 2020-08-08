@@ -14,6 +14,8 @@ import {
   DOWN_TASK
 } from './actionTypes';
 
+const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
+
 const addProjectAction = project => ({
   type: ADD_PROJECT,
   payload: project
@@ -137,7 +139,6 @@ export const deleteTask = taskDelete => async (dispatch, getRootState = {}) => {
     .tasks
     .slice(taskDelete.indexTask + 1)
     .map(task => ({ ...task, indexTask: task.indexTask - 1 }));
-  const numberOfTasks = getRootState().projects.projects[indexProject].tasks.length;
   dispatch(deleteTaskAction({ ...taskDelete, tasksUpdate }));
 };
 
@@ -163,10 +164,6 @@ export const upTask = up => async (dispatch, getRootState = {}) => {
       indexTask: up.indexTask
     }
   ];
-  const tasksServerMove = tasksMove.map(task => ({
-    id: task.id,
-    indexTask: task.indexTask
-  }));
 
   dispatch(upTaskAction({ indexProject, indexTask: up.indexTask, tasksMove }));
 };
@@ -194,11 +191,6 @@ export const downTask = down => async (dispatch, getRootState = {}) => {
       indexTask: down.indexTask + 1
     }
   ];
-
-  const tasksServerMove = tasksMove.map(task => ({
-    id: task.id,
-    indexTask: task.indexTask
-  }));
 
   dispatch(downTaskAction({ indexProject, indexTask: down.indexTask, tasksMove }));
 };
