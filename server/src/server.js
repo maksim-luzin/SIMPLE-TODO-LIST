@@ -1,6 +1,4 @@
-import fs from 'fs';
 import express from 'express';
-
 import passport from 'passport';
 import routes from './api/routes/index';
 import authorizationMiddleware from './api/middlewares/authorizationMiddleware';

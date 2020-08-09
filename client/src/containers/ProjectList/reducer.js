@@ -1,4 +1,5 @@
 import {
+  LOAD_PROJECTS,
   ADD_PROJECT,
   EDIT_PROJECTT_NAME,
   UPDATE_PROJECT_NAME,
@@ -19,6 +20,13 @@ const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(
 export default (state = {}, action) => {
   let indexProject = null;
   switch (action.type) {
+    case LOAD_PROJECTS:
+      return {
+        ...state,
+        ...action.payload,
+        allProjectsLoaded: true
+      };
+
     case ADD_PROJECT:
       return {
         ...state,

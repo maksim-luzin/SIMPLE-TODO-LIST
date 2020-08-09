@@ -1,6 +1,8 @@
 import * as projectService from 'src/services/projectService';
+import * as taskService from 'src/services/taskService';
 
 import {
+  LOAD_PROJECTS,
   ADD_PROJECT,
   EDIT_PROJECTT_NAME,
   UPDATE_PROJECT_NAME,
@@ -17,9 +19,20 @@ import {
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
+
 const permissionMidelware = rootState => Boolean(
   rootState.projects.editProjectNameId || rootState.projects.editTaskDescriptionProjectId
 );
+
+const loadAllProjectsAction = projects => ({
+  type: LOAD_PROJECTS,
+  payload: projects
+});
+
+export const loadAllProjects = () => async dispatch => {
+  const projects = await projectService.getAllProjects();
+  dispatch(loadAllProjectsAction(projects));
+};
 
 const addProjectAction = project => ({
   type: ADD_PROJECT,
@@ -64,7 +77,7 @@ const deleteProjectAction = id => ({
   payload: id
 });
 
-export const deleteProject = id => async dispatch => {
+export const deleteProject = id => async (dispatch, getRootState = []) => {
   if (permissionMidelware(getRootState())) return;
   await projectService.deleteProject(id);
   dispatch(deleteProjectAction(id));
@@ -98,7 +111,6 @@ export const addTask = newTask => async (dispatch, getRootState = {}) => {
   };
   dispatch(addTaskAction({ projectId: newTask.projectId, task }));
 };
-
 
 const taskDoneAction = done => ({
   type: TASK_DONE,

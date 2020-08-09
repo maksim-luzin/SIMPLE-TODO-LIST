@@ -4,6 +4,9 @@ import * as projectService from '../services/projectService';
 const router = Router();
 
 router
+  .get('/', (req, res, next) => projectService.getAllProjectsByUserId(req.user.id)
+    .then(projects => res.send(projects))
+    .catch(next))
   .post('/', (req, res, next) => projectService.addProject(req.user.id, req.body)
     .then(id => res.send(id))
     .catch(next))

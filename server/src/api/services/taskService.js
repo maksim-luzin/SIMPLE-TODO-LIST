@@ -13,7 +13,6 @@ export const addTask = async task => {
 export const updateTask = async (id, task) => {
   const updatedTask = await taskRepository.updateById(id, task);
   if (!updatedTask.toJSON()) throw Error('Task update failed');
-  return;
 };
 
 export const deleteTask = async taskDelete => {
@@ -33,15 +32,11 @@ export const deleteTask = async taskDelete => {
     const moveTask = await taskRepository.updateById(task.id, { indexTask: task.indexTask });
     if (!moveTask.toJSON()) throw Error('Error in reorganizing the project.');
   });
-
-  return;
 };
 
 export const moveTask = async tasks => {
   await tasks.forEach(async task => {
-    const moveTask = await taskRepository.updateById(task.id, { indexTask: task.indexTask });
-    if (!moveTask.toJSON()) throw Error('Task move failed');
+    const movedTask = await taskRepository.updateById(task.id, { indexTask: task.indexTask });
+    if (!movedTask.toJSON()) throw Error('Task move failed');
   });
-
-  return;
 };

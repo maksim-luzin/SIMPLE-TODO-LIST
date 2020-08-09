@@ -10,28 +10,25 @@ export const addTask = async request => {
 };
 
 export const updateTask = async request => {
-  const response = await callWebApi({
+  await callWebApi({
     endpoint: `/api/tasks/${request.id}`,
     type: 'PUT',
     request
   });
-  return;
 };
 
 export const deleteTask = async request => {
-  const response = await callWebApi({
+  await callWebApi({
     endpoint: `/api/tasks/${request.id}`,
     type: 'DELETE',
     request
   });
-  return;
 };
 
 export const moveTask = async request => {
-  const response = await callWebApi({
+  await callWebApi({
     endpoint: '/api/tasks/move',
     type: 'PUT',
     request
   });
-  return;
 };
