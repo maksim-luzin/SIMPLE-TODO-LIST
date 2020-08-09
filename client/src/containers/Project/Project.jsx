@@ -6,6 +6,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { Card, Form, Table, Button } from 'react-bootstrap';
+
+import ProjectManeger from '../../components/ProjectManager';
+import NewTask from '../../components/NewTask';
+import Task from '../../components/Task';
+
 import {
   editProjectName,
   updateProjectName,
@@ -19,10 +24,6 @@ import {
   upTask,
   downTask
 } from '../ProjectList/actions';
-
-import ProjectManeger from '../../components/ProjectManager';
-import NewTask from '../../components/NewTask';
-import Task from '../../components/Task';
 
 import './project.scss';
 

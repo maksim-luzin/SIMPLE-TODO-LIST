@@ -11,14 +11,19 @@ import RegistrationPage from 'src/containers/RegistrationPage';
 import NotFound from 'src/scenes/NotFound';
 import PrivateRoute from 'src/containers/PrivateRoute';
 import PublicRoute from 'src/containers/PublicRoute';
-import { loadCurrentUser } from 'src/containers/Profile/actions';
+import SignOut from 'src/components/SignOut';
+import {
+  loadCurrentUser,
+  logout
+} from 'src/containers/Profile/actions';
 
 import './routing.scss';
 
 const Routing = ({
   isLoading,
   isAuthorized,
-  loadCurrentUser: loadUser
+  loadCurrentUser: loadUser,
+  logout: logoutAction
 }) => {
   if (!isAuthorized) {
     loadUser();
@@ -26,6 +31,11 @@ const Routing = ({
 
   return (
     <div>
+      {
+        isAuthorized
+          ? <SignOut logout={logoutAction} />
+          : ''
+      }
       <div className="container d-flex flex-column justify-content-center px-0 custom-container">
         <header className="todo-list-header custom-header">
           <h1 className="h2 py-0 font-weight-bold text-uppercase">SIMPLE TODO LISTS</h1>
@@ -56,7 +66,8 @@ const Routing = ({
 Routing.propTypes = {
   isAuthorized: PropTypes.bool,
   isLoading: PropTypes.bool,
-  loadCurrentUser: PropTypes.func.isRequired
+  loadCurrentUser: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 Routing.defaultProps = {
@@ -64,7 +75,10 @@ Routing.defaultProps = {
   isLoading: true
 };
 
-const actions = { loadCurrentUser };
+const actions = {
+  loadCurrentUser,
+  logout
+};
 
 const mapStateToProps = ({ profile }) => ({
   isAuthorized: profile.isAuthorized,

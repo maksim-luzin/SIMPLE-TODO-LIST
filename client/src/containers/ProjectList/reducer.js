@@ -12,7 +12,8 @@ import {
   UPDATE_TASK_DESCRIPTION,
   DELETE_TASK,
   UP_TASK,
-  DOWN_TASK
+  DOWN_TASK,
+  USER_LOGOUT
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -207,6 +208,13 @@ export default (state = {}, action) => {
           },
           ...state.projects.slice(action.payload.indexProject + 1)
         ]
+      };
+
+    case USER_LOGOUT:
+      return {
+        ...state,
+        projects: [],
+        allProjectsLoaded: false
       };
 
     default:
