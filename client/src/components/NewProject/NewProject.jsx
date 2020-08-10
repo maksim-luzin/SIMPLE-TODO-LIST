@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 
-import './new-project.scss'
+import './new-project.scss';
 
 const NewProject = ({ addProject }) => (
   <div className="text-center new-project">
@@ -11,7 +11,7 @@ const NewProject = ({ addProject }) => (
       Add TODO List
     </Button>
   </div>
-)
+);
 
 NewProject.propTypes = { addProject: PropTypes.func.isRequired };
 

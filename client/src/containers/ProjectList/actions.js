@@ -1,4 +1,8 @@
+import * as projectService from 'src/services/projectService';
+import * as taskService from 'src/services/taskService';
+
 import {
+  LOAD_PROJECTS,
   ADD_PROJECT,
   EDIT_PROJECTT_NAME,
   UPDATE_PROJECT_NAME,
@@ -14,20 +18,34 @@ import {
   DOWN_TASK
 } from './actionTypes';
 
+const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
+
+const permissionMidelware = rootState => Boolean(
+  rootState.projects.editProjectNameId || rootState.projects.editTaskDescriptionProjectId
+);
+
+const loadAllProjectsAction = projects => ({
+  type: LOAD_PROJECTS,
+  payload: projects
+});
+
+export const loadAllProjects = () => async dispatch => {
+  const projects = await projectService.getAllProjects();
+  dispatch(loadAllProjectsAction(projects));
+};
+
 const addProjectAction = project => ({
   type: ADD_PROJECT,
   payload: project
 });
 
 export const addProject = () => async (dispatch, getRootState = []) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
   const name = 'New Project';
-  const id = Math.floor((1e8 * Math.random()));
+  const id = await projectService.addProject({ name });
 
   const project = {
-    id,
+    ...id,
     name,
     tasks: []
   };
@@ -40,9 +58,7 @@ const editProjectNameAction = id => ({
 });
 
 export const editProjectName = id => (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
   dispatch(editProjectNameAction(id));
 };
 
@@ -52,6 +68,7 @@ const updateProjectNameAction = projectName => ({
 });
 
 export const updateProjectName = updateNameProject => async dispatch => {
+  await projectService.updateProjectName({ ...updateNameProject });
   dispatch(updateProjectNameAction(updateNameProject));
 };
 
@@ -60,7 +77,9 @@ const deleteProjectAction = id => ({
   payload: id
 });
 
-export const deleteProject = id => async dispatch => {
+export const deleteProject = id => async (dispatch, getRootState = []) => {
+  if (permissionMidelware(getRootState())) return;
+  await projectService.deleteProject(id);
   dispatch(deleteProjectAction(id));
 };
 
@@ -79,12 +98,11 @@ const addTaskAction = newTask => ({
 });
 
 export const addTask = newTask => async (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
+
   const projectNumber = search(getRootState().projects.projects, newTask.projectId);
   const indexTask = getRootState().projects.projects[projectNumber].tasks.length;
-  const id = Math.floor((1e8 * Math.random()));
+  const { id } = await taskService.addTask({ ...newTask, indexTask });
   const task = {
     ...newTask,
     id,
@@ -100,6 +118,7 @@ const taskDoneAction = done => ({
 });
 
 export const taskDone = done => async dispatch => {
+  await taskService.updateTask({ id: done.id, done: done.done });
   dispatch(taskDoneAction(done));
 };
 
@@ -109,9 +128,7 @@ const editTaskDescriptionAction = editTask => ({
 });
 
 export const editTaskDescription = editTask => async (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
   dispatch(editTaskDescriptionAction(editTask));
 };
 
@@ -121,6 +138,7 @@ const updateTaskDescriptionAction = taskDescription => ({
 });
 
 export const updateTaskDescription = taskDescription => async dispatch => {
+  await taskService.updateTask({ id: taskDescription.id, description: taskDescription.description });
   dispatch(updateTaskDescriptionAction(taskDescription));
 };
 
@@ -130,6 +148,7 @@ const deleteTaskAction = task => ({
 });
 
 export const deleteTask = taskDelete => async (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
   const indexProject = search(getRootState().projects.projects, taskDelete.projectId);
   const tasksUpdate = getRootState()
     .projects
@@ -138,8 +157,19 @@ export const deleteTask = taskDelete => async (dispatch, getRootState = {}) => {
     .slice(taskDelete.indexTask + 1)
     .map(task => ({ ...task, indexTask: task.indexTask - 1 }));
   const numberOfTasks = getRootState().projects.projects[indexProject].tasks.length;
+  await taskService.deleteTask({
+    id: taskDelete.id,
+    projectId: taskDelete.projectId,
+    indexTask: taskDelete.indexTask,
+    numberOfTasks
+  });
   dispatch(deleteTaskAction({ ...taskDelete, tasksUpdate }));
 };
+
+const tasksServerMove = tasksMove => tasksMove.map(task => ({
+  id: task.id,
+  indexTask: task.indexTask
+}));
 
 const upTaskAction = upTask => ({
   type: UP_TASK,
@@ -147,11 +177,8 @@ const upTaskAction = upTask => ({
 });
 
 export const upTask = up => async (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId
-    || getRootState().projects.editTaskDescriptionProjectId
-    || !up.indexTask) {
-    return;
-  }
+  if (permissionMidelware(getRootState()) || !up.indexTask) return;
+
   const indexProject = search(getRootState().projects.projects, up.projectId);
   const tasksMove = [
     {
@@ -163,11 +190,8 @@ export const upTask = up => async (dispatch, getRootState = {}) => {
       indexTask: up.indexTask
     }
   ];
-  const tasksServerMove = tasksMove.map(task => ({
-    id: task.id,
-    indexTask: task.indexTask
-  }));
 
+  await taskService.moveTask(tasksServerMove(tasksMove));
   dispatch(upTaskAction({ indexProject, indexTask: up.indexTask, tasksMove }));
 };
 
@@ -177,13 +201,11 @@ const downTaskAction = downTask => ({
 });
 
 export const downTask = down => async (dispatch, getRootState = {}) => {
-  if (getRootState().projects.editProjectNameId || getRootState().projects.editTaskDescriptionProjectId) {
-    return;
-  }
+  if (permissionMidelware(getRootState())) return;
+
   const indexProject = search(getRootState().projects.projects, down.projectId);
-  if (getRootState().projects.projects[indexProject].tasks.length - 1 <= down.indexTask) {
-    return;
-  }
+  if (getRootState().projects.projects[indexProject].tasks.length - 1 <= down.indexTask) return;
+
   const tasksMove = [
     {
       ...getRootState().projects.projects[indexProject].tasks[down.indexTask + 1],
@@ -195,10 +217,6 @@ export const downTask = down => async (dispatch, getRootState = {}) => {
     }
   ];
 
-  const tasksServerMove = tasksMove.map(task => ({
-    id: task.id,
-    indexTask: task.indexTask
-  }));
-
+  await taskService.moveTask(tasksServerMove(tasksMove));
   dispatch(downTaskAction({ indexProject, indexTask: down.indexTask, tasksMove }));
 };

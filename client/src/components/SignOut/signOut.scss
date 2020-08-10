@@ -1,0 +1,14 @@
+.navigation-bar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end !important;
+
+  &:hover {
+    opacity: 1;
+  }
+}

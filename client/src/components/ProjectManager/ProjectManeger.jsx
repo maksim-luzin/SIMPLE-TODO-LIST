@@ -5,7 +5,7 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 import { Card, Form, Button } from 'react-bootstrap';
 
-import './project-manager.scss'
+import './project-manager.scss';
 
 const ProjectManeger = ({
   id,
@@ -41,15 +41,14 @@ const ProjectManeger = ({
 
   return edit
     ? (
-      <Card.Header className="bg-primary text-white edit-project-name" >
-        <Form onSubmit={ev => ev.preventDefault()
-        }>
+      <Card.Header className="bg-primary text-white edit-project-name">
+        <Form onSubmit={ev => ev.preventDefault()}>
           <Form.Group className="input-group">
             <Form.Control
               name="projectName"
               type="text"
               maxLength="55"
-              autoFocus={true}
+              autoFocus
               className="bg-primary text-white"
               placeholder="Start typing here to create a project..."
               value={getName}
@@ -77,8 +76,8 @@ const ProjectManeger = ({
         <div className="project-delete" onClick={handleDeleteProject}>&nbsp;</div>
         <NotificationContainer />
       </Card.Header>
-    )
-}
+    );
+};
 
 ProjectManeger.propTypes = {
   id: PropTypes.number.isRequired,
