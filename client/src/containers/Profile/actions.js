@@ -1,5 +1,8 @@
 import * as authService from 'src/services/authService';
-import { SET_USER } from './actionTypes';
+import {
+  SET_USER,
+  USER_LOGOUT
+} from './actionTypes';
 
 const setToken = token => localStorage.setItem('token', token);
 
@@ -8,8 +11,16 @@ const setUser = user => async dispatch => dispatch({
   payload: user
 });
 
+const logoutUser = () => ({
+  type: USER_LOGOUT,
+  payload: null
+});
+
 const setAuthData = (user = null, token = '') => (dispatch, getRootState) => {
   setToken(token);
+  if (!user) {
+    dispatch(logoutUser());
+  }
   setUser(user)(dispatch, getRootState);
 };
 
@@ -26,3 +37,5 @@ export const loadCurrentUser = () => async (dispatch, getRootState) => {
   const user = await authService.getCurrentUser();
   setUser(user)(dispatch, getRootState);
 };
+
+export const logout = () => setAuthData();

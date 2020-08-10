@@ -1,3 +1,4 @@
+import fs from 'fs';
 import express from 'express';
 import passport from 'passport';
 import routes from './api/routes/index';
@@ -33,6 +34,11 @@ const staticPath = process.env.NODE_ENV === 'production'
   ? './dist/client'
   : '../client/build';
 app.use(express.static(staticPath));
+
+app.get('*', (req, res) => {
+  res.write(fs.readFileSync(`${staticPath}/index.html`));
+  res.end();
+});
 
 app.use(errorHandlerMiddleware);
 

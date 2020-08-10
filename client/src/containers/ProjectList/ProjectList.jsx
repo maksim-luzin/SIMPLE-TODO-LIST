@@ -6,17 +6,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Card, Form, Button, Table } from 'react-bootstrap';
+import NewProject from '../../components/NewProject';
+import Project from '../Project';
+import Modal from '../../components/Modal';
+import Spinner from '../../components/Spinner';
 
 import {
   addProject,
   closeConfirmAction,
   loadAllProjects
 } from './actions';
-
-import NewProject from '../../components/NewProject';
-import Project from '../Project';
-import Modal from '../../components/Modal';
-import Spinner from '../../components/Spinner';
 
 import './project-list.scss';
 
