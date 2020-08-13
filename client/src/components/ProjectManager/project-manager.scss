@@ -83,3 +83,11 @@
   padding-left: 3.1rem !important;
   padding-right: 0 !important;
 }
+
+.tasks-count {
+  display: inline-block;
+}
+
+.card-header:hover .tasks-count {
+  display: none;
+}

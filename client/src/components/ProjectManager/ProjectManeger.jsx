@@ -14,7 +14,8 @@ const ProjectManeger = ({
   edit,
   updateProjectName,
   deleteProject,
-  modalConfirmAction
+  modalConfirmAction,
+  tasksCount
 }) => {
   const [getName, setName] = useState(name);
 
@@ -74,6 +75,11 @@ const ProjectManeger = ({
         </div>
         <div className="project-edit" onClick={() => editProjectName({ id })}>&nbsp;</div>
         <div className="project-delete" onClick={handleDeleteProject}>&nbsp;</div>
+        <div className="tasks-count">
+          {tasksCount
+            ? `${tasksCount} task${tasksCount === 1 ? '' : 's'}.`
+            : ''}
+        </div>
         <NotificationContainer />
       </Card.Header>
     );
@@ -86,7 +92,8 @@ ProjectManeger.propTypes = {
   edit: PropTypes.bool.isRequired,
   updateProjectName: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
-  modalConfirmAction: PropTypes.func.isRequired
+  modalConfirmAction: PropTypes.func.isRequired,
+  tasksCount: PropTypes.number.isRequired
 };
 
 export default ProjectManeger;

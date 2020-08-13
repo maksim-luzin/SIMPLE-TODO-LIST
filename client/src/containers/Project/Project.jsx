@@ -52,6 +52,7 @@ const Project = ({
       updateProjectName={updateProject}
       modalConfirmAction={modalConfirm}
       deleteProject={deleteProjectAction}
+      tasksCount={project.tasks.length}
     />
     <NewTask
       addTask={addTaskAction}

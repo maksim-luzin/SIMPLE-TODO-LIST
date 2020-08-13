@@ -15,7 +15,8 @@ import {
   UPDATE_TASK_DESCRIPTION,
   DELETE_TASK,
   UP_TASK,
-  DOWN_TASK
+  DOWN_TASK,
+  SORT_PROJECT_DESCENDING_TASKS
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -220,3 +221,7 @@ export const downTask = down => async (dispatch, getRootState = {}) => {
   await taskService.moveTask(tasksServerMove(tasksMove));
   dispatch(downTaskAction({ indexProject, indexTask: down.indexTask, tasksMove }));
 };
+
+export const sortProjectsDescendingNumberTasks = () => ({
+  type: SORT_PROJECT_DESCENDING_TASKS
+});
