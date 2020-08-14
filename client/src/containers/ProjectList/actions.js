@@ -16,7 +16,8 @@ import {
   DELETE_TASK,
   UP_TASK,
   DOWN_TASK,
-  SORT_PROJECT_DESCENDING_TASKS
+  SORT_PROJECTS_DESCENDING_TASKS,
+  SORT_PROJECTS_BY_NAME
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -222,6 +223,20 @@ export const downTask = down => async (dispatch, getRootState = {}) => {
   dispatch(downTaskAction({ indexProject, indexTask: down.indexTask, tasksMove }));
 };
 
-export const sortProjectsDescendingNumberTasks = () => ({
-  type: SORT_PROJECT_DESCENDING_TASKS
+export const sortProjectsDescendingNumberTasksAction = () => ({
+  type: SORT_PROJECTS_DESCENDING_TASKS
 });
+
+export const sortProjectsDescendingNumberTasks = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(sortProjectsDescendingNumberTasksAction());
+};
+
+export const sortProjectsNameAction = () => ({
+  type: SORT_PROJECTS_BY_NAME
+});
+
+export const sortProjectsName = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(sortProjectsNameAction());
+};

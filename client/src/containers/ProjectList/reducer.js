@@ -14,7 +14,8 @@ import {
   UP_TASK,
   DOWN_TASK,
   USER_LOGOUT,
-  SORT_PROJECT_DESCENDING_TASKS
+  SORT_PROJECTS_DESCENDING_TASKS,
+  SORT_PROJECTS_BY_NAME
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -218,10 +219,16 @@ export default (state = {}, action) => {
         allProjectsLoaded: false
       };
 
-    case SORT_PROJECT_DESCENDING_TASKS:
+    case SORT_PROJECTS_DESCENDING_TASKS:
       return {
         ...state,
         projects: [...state.projects].sort((a, b) => b.tasks.length - a.tasks.length)
+      };
+
+    case SORT_PROJECTS_BY_NAME:
+      return {
+        ...state,
+        projects: [...state.projects].sort((a, b) => a.name.normalize().localeCompare(b.name.normalize()))
       };
 
     default:

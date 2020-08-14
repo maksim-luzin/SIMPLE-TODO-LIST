@@ -18,7 +18,8 @@ import {
 } from 'src/containers/Profile/actions';
 
 import {
-  sortProjectsDescendingNumberTasks
+  sortProjectsDescendingNumberTasks,
+  sortProjectsName
 } from 'src/containers/ProjectList/actions';
 
 import './routing.scss';
@@ -28,7 +29,8 @@ const Routing = ({
   isAuthorized,
   loadCurrentUser: loadUser,
   logout: logoutAction,
-  sortProjectsDescendingNumberTasks: sortProjectsDescendingNumberTasksAction
+  sortProjectsDescendingNumberTasks: sortProjectsDescendingNumberTasksAction,
+  sortProjectsName: sortProjectsNameAction
 }) => {
   if (!isAuthorized) {
     loadUser();
@@ -42,6 +44,7 @@ const Routing = ({
             <SignOut
               logout={logoutAction}
               sortProjectsDescendingNumberTasks={sortProjectsDescendingNumberTasksAction}
+              sortProjectsName={sortProjectsNameAction}
             />
           )
           : ''
@@ -78,7 +81,8 @@ Routing.propTypes = {
   isLoading: PropTypes.bool,
   loadCurrentUser: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
-  sortProjectsDescendingNumberTasks: PropTypes.func.isRequired
+  sortProjectsDescendingNumberTasks: PropTypes.func.isRequired,
+  sortProjectsName: PropTypes.func.isRequired
 };
 
 Routing.defaultProps = {
@@ -89,7 +93,8 @@ Routing.defaultProps = {
 const actions = {
   loadCurrentUser,
   logout,
-  sortProjectsDescendingNumberTasks
+  sortProjectsDescendingNumberTasks,
+  sortProjectsName
 };
 
 const mapStateToProps = ({ profile }) => ({
