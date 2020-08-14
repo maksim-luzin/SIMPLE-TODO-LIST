@@ -8,9 +8,18 @@ import './signOut.scss';
 
 const SignOut = ({
   logout,
+  showAllProjects,
   sortProjectsDescendingNumberTasks,
-  sortProjectsName
+  sortProjectsName,
+  filterProjectsWithLetterAName
 }) => {
+  const handleShowAllProjects = () => {
+    try {
+      showAllProjects();
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
   const handleSortProjectsDescendingNumberTasks = () => {
     try {
       sortProjectsDescendingNumberTasks();
@@ -27,6 +36,14 @@ const SignOut = ({
     }
   };
 
+  const handleFilterProjectsWithLetterAName = () => {
+    try {
+      filterProjectsWithLetterAName();
+    } catch (err) {
+      NotificationManager.error(err.message);
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-primary navigation-bar">
       <div className="technical-requirements">
@@ -37,6 +54,11 @@ const SignOut = ({
         </span>
         <ul className="mr-auto requirements-list bg-primary">
           <li>
+            <div onClick={() => handleShowAllProjects()}>
+              Show all projects.
+            </div>
+          </li>
+          <li>
             <div onClick={() => handleSortProjectsDescendingNumberTasks()}>
               Get the count of all tasks in each project, order by tasks count descending.
             </div>
@@ -44,6 +66,13 @@ const SignOut = ({
           <li>
             <div onClick={() => handleSortProjectsName()}>
               Get the count of all tasks in each project, order by projects names.
+            </div>
+          </li>
+          <li>
+            <div onClick={() => handleFilterProjectsWithLetterAName()}>
+              Get the list of all projects containing the &quot;a&quot; letter in the middle of the name,
+              and show the tasks count near each project. Mention that there can exist projects
+              without tasks and tasks with project_id = NULL
             </div>
           </li>
         </ul>
@@ -58,8 +87,10 @@ const SignOut = ({
 
 SignOut.propTypes = {
   logout: PropTypes.func.isRequired,
+  showAllProjects: PropTypes.func.isRequired,
   sortProjectsDescendingNumberTasks: PropTypes.func.isRequired,
-  sortProjectsName: PropTypes.func.isRequired
+  sortProjectsName: PropTypes.func.isRequired,
+  filterProjectsWithLetterAName: PropTypes.func.isRequired
 };
 
 export default SignOut;

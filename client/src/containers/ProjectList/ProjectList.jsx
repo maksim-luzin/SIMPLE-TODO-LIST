@@ -27,7 +27,9 @@ const ProjectList = ({
   deleteFunction,
   deleteData,
   loadAllProjects: loadProjects,
-  allProjectsLoaded
+  allProjectsLoaded,
+  functionSort,
+  filterProjects
 }) => (
   <section className="flex-grow-1 d-flex flex-column">
     <InfiniteScroll
@@ -38,7 +40,7 @@ const ProjectList = ({
       loader={<Spinner />}
     >
       {projects.length
-        ? (projects.map(project => (
+        ? ([...projects].sort(functionSort).filter(filterProjects).map(project => (
           <Project key={project.id} project={project} />
         ))
         )
@@ -63,7 +65,9 @@ ProjectList.propTypes = {
   deleteData: PropTypes.object.isRequired, // eslint-disable-line
   closeConfirmAction: PropTypes.func.isRequired,
   loadAllProjects: PropTypes.func.isRequired,
-  allProjectsLoaded: PropTypes.bool
+  allProjectsLoaded: PropTypes.bool,
+  functionSort: PropTypes.func.isRequired,
+  filterProjects: PropTypes.func.isRequired
 };
 
 ProjectList.defaultProps = {
@@ -77,7 +81,9 @@ const mapStateToProps = rootState => ({
   modal: rootState.projects.modal,
   deleteFunction: rootState.projects.deleteFunction,
   deleteData: rootState.projects.deleteData,
-  allProjectsLoaded: rootState.projects.allProjectsLoaded
+  allProjectsLoaded: rootState.projects.allProjectsLoaded,
+  functionSort: rootState.projects.functionSort,
+  filterProjects: rootState.projects.filterProjects
 });
 
 const actions = {

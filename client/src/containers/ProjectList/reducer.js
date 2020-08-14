@@ -14,8 +14,10 @@ import {
   UP_TASK,
   DOWN_TASK,
   USER_LOGOUT,
+  SHOW_ALL_PROJECTS,
   SORT_PROJECTS_DESCENDING_TASKS,
-  SORT_PROJECTS_BY_NAME
+  SORT_PROJECTS_BY_NAME,
+  FILTER_PROJECTS_WITH_LETTER_A_NAME
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -27,7 +29,9 @@ export default (state = {}, action) => {
       return {
         ...state,
         ...action.payload,
-        allProjectsLoaded: true
+        allProjectsLoaded: true,
+        functionSort: () => true,
+        filterProjects: () => true
       };
 
     case ADD_PROJECT:
@@ -37,7 +41,8 @@ export default (state = {}, action) => {
           ...state.projects,
           action.payload
         ],
-        editProjectNameId: action.payload.id
+        editProjectNameId: action.payload.id,
+        filterProjects: () => true
       };
 
     case EDIT_PROJECTT_NAME:
@@ -58,7 +63,8 @@ export default (state = {}, action) => {
           },
           ...state.projects.slice(indexProject + 1)
         ],
-        editProjectNameId: 0
+        editProjectNameId: 0,
+        filterProjects: () => true
       };
 
     case DELETE_PROJECT:
@@ -216,19 +222,41 @@ export default (state = {}, action) => {
       return {
         ...state,
         projects: [],
-        allProjectsLoaded: false
+        allProjectsLoaded: false,
+        filterProjects: () => true
+      };
+
+    case SHOW_ALL_PROJECTS:
+      return {
+        ...state,
+        functionSort: () => true,
+        filterProjects: () => true
       };
 
     case SORT_PROJECTS_DESCENDING_TASKS:
       return {
         ...state,
-        projects: [...state.projects].sort((a, b) => b.tasks.length - a.tasks.length)
+        functionSort: (a, b) => b.tasks.length - a.tasks.length,
+        filterProjects: () => true
       };
 
     case SORT_PROJECTS_BY_NAME:
       return {
         ...state,
-        projects: [...state.projects].sort((a, b) => a.name.normalize().localeCompare(b.name.normalize()))
+        functionSort: (a, b) => a.name.normalize().localeCompare(b.name.normalize()),
+        filterProjects: () => true
+      };
+
+    case FILTER_PROJECTS_WITH_LETTER_A_NAME:
+      return {
+        ...state,
+        functionSort: () => true,
+        filterProjects: a => {
+          const name = a.name.toLowerCase();
+          return name.indexOf('a')
+            && (name.indexOf('a') + 1)
+            && (name.length - name.indexOf('a'));
+        }
       };
 
     default:

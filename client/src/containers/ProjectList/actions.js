@@ -16,8 +16,10 @@ import {
   DELETE_TASK,
   UP_TASK,
   DOWN_TASK,
+  SHOW_ALL_PROJECTS,
   SORT_PROJECTS_DESCENDING_TASKS,
-  SORT_PROJECTS_BY_NAME
+  SORT_PROJECTS_BY_NAME,
+  FILTER_PROJECTS_WITH_LETTER_A_NAME
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -223,7 +225,16 @@ export const downTask = down => async (dispatch, getRootState = {}) => {
   dispatch(downTaskAction({ indexProject, indexTask: down.indexTask, tasksMove }));
 };
 
-export const sortProjectsDescendingNumberTasksAction = () => ({
+const showAllProjectsAction = () => ({
+  type: SHOW_ALL_PROJECTS
+});
+
+export const showAllProjects = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(showAllProjectsAction());
+};
+
+const sortProjectsDescendingNumberTasksAction = () => ({
   type: SORT_PROJECTS_DESCENDING_TASKS
 });
 
@@ -232,11 +243,20 @@ export const sortProjectsDescendingNumberTasks = () => (dispatch, getRootState =
   dispatch(sortProjectsDescendingNumberTasksAction());
 };
 
-export const sortProjectsNameAction = () => ({
+const sortProjectsNameAction = () => ({
   type: SORT_PROJECTS_BY_NAME
 });
 
 export const sortProjectsName = () => (dispatch, getRootState = {}) => {
   if (permissionMidelware(getRootState())) return;
   dispatch(sortProjectsNameAction());
+};
+
+const filterProjectsWithLetterANameAction = () => ({
+  type: FILTER_PROJECTS_WITH_LETTER_A_NAME
+});
+
+export const filterProjectsWithLetterAName = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(filterProjectsWithLetterANameAction());
 };
