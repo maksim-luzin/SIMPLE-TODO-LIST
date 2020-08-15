@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 import { Form, Button, InputGroup } from 'react-bootstrap';
 
@@ -17,29 +16,30 @@ const Task = ({
   modalConfirmAction,
   deleteTask,
   upTask,
-  downTask
+  downTask,
+  errorHandle
 }) => {
   const { id, done, description, indexTask } = task;
   const [getDescription, setDescription] = useState(description);
 
-  const handleTaskDone = event => {
+  const handleTaskDone = async event => {
     try {
       event.preventDefault();
-      taskDone({ projectId, id, indexTask, done: !done });
+      await taskDone({ projectId, id, indexTask, done: !done });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Task done do not work.');
     }
   };
 
-  const handleEditTaskDescription = event => {
+  const handleEditTaskDescription = async event => {
     try {
       event.preventDefault();
       if (done) {
         return;
       }
-      editTaskDescription({ projectId, id });
+      await editTaskDescription({ projectId, id });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Edit  task description do not work.');
     }
   };
 
@@ -53,42 +53,42 @@ const Task = ({
   row-${handleRowTextArea(getDescription) || 1} 
   ${done && 'task-done-description'}`;
 
-  const handleUpdateTaskDescription = event => {
+  const handleUpdateTaskDescription = async event => {
     try {
       event.preventDefault();
       if (!getDescription.trim()) {
         return;
       }
-      updateTaskDescription({ id, projectId, indexTask, description: getDescription.trim() });
+      await updateTaskDescription({ id, projectId, indexTask, description: getDescription.trim() });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Update task description do not work.');
     }
   };
 
-  const handleDeleteTask = event => {
+  const handleDeleteTask = async event => {
     try {
       event.preventDefault();
-      modalConfirmAction({ deleteFunction: deleteTask, deleteData: { projectId, id, indexTask } });
+      await modalConfirmAction({ deleteFunction: deleteTask, deleteData: { projectId, id, indexTask } });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Delete task do not work.');
     }
   };
 
-  const handleUpTask = event => {
+  const handleUpTask = async event => {
     try {
       event.preventDefault();
-      upTask({ indexTask, id, projectId });
+      await upTask({ indexTask, id, projectId });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Move up task do not work.');
     }
   };
 
-  const handleDownTask = event => {
+  const handleDownTask = async event => {
     try {
       event.preventDefault();
-      downTask({ indexTask, id, projectId });
+      await downTask({ indexTask, id, projectId });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Move down task do not work.');
     }
   };
 
@@ -140,7 +140,6 @@ const Task = ({
             </div>
           </td>
         )}
-      <NotificationContainer />
     </tr>
   );
 };
@@ -155,7 +154,8 @@ Task.propTypes = {
   modalConfirmAction: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
   upTask: PropTypes.func.isRequired,
-  downTask: PropTypes.func.isRequired
+  downTask: PropTypes.func.isRequired,
+  errorHandle: PropTypes.func.isRequired
 };
 
 export default Task;

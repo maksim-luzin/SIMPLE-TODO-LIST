@@ -33,6 +33,16 @@ routes(app);
 const staticPath = process.env.NODE_ENV === 'production'
   ? './dist/client'
   : '../client/build';
+
+app.use((req, res, next) => {
+  res.set({
+    'Cache-Control': [
+      'max-age=34164000',
+      'public'
+    ]
+  });
+  next();
+});
 app.use(express.static(staticPath));
 
 app.get('*', (req, res) => {

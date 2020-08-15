@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 import { Form, Button } from 'react-bootstrap';
 
@@ -9,20 +8,22 @@ import './new-task.scss';
 
 const NewTask = ({
   id,
-  addTask
+  addTask,
+  errorHandle
 }) => {
   const [getDescription, setDescription] = useState('');
 
-  const handleAddTask = event => {
+  const handleAddTask = async event => {
     try {
       event.preventDefault();
       if (!getDescription.trim()) {
         return;
       }
-      addTask({ projectId: id, description: getDescription.trim() });
-      setDescription('');
+      await addTask({ projectId: id, description: getDescription.trim() });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Add new task do not work.');
+    } finally {
+      setDescription('');
     }
   };
 
@@ -41,14 +42,14 @@ const NewTask = ({
           <Button className="btn btn-success" type="button" onClick={handleAddTask}>Add Task</Button>
         </div>
       </Form.Group>
-      <NotificationContainer />
     </Form>
   );
 };
 
 NewTask.propTypes = {
   id: PropTypes.string.isRequired,
-  addTask: PropTypes.func.isRequired
+  addTask: PropTypes.func.isRequired,
+  errorHandle: PropTypes.func.isRequired
 };
 
 export default NewTask;

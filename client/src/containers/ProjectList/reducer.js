@@ -13,7 +13,14 @@ import {
   DELETE_TASK,
   UP_TASK,
   DOWN_TASK,
-  USER_LOGOUT
+  USER_LOGOUT,
+  SHOW_ALL_PROJECTS,
+  SORT_PROJECTS_DESCENDING_TASKS,
+  SORT_PROJECTS_BY_NAME,
+  FILTER_PROJECTS_WITH_LETTER_A_NAME,
+  FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE,
+  ERROR_MESSAGE,
+  FINISH_DOWNLOADING_PROJECTS
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -25,7 +32,9 @@ export default (state = {}, action) => {
       return {
         ...state,
         ...action.payload,
-        allProjectsLoaded: true
+        allProjectsLoaded: true,
+        functionSort: () => true,
+        filterProjects: () => true
       };
 
     case ADD_PROJECT:
@@ -35,7 +44,8 @@ export default (state = {}, action) => {
           ...state.projects,
           action.payload
         ],
-        editProjectNameId: action.payload.id
+        editProjectNameId: action.payload.id,
+        filterProjects: () => true
       };
 
     case EDIT_PROJECTT_NAME:
@@ -56,7 +66,8 @@ export default (state = {}, action) => {
           },
           ...state.projects.slice(indexProject + 1)
         ],
-        editProjectNameId: 0
+        editProjectNameId: 0,
+        filterProjects: () => true
       };
 
     case DELETE_PROJECT:
@@ -123,7 +134,8 @@ export default (state = {}, action) => {
             ]
           },
           ...state.projects.slice(indexProject + 1)
-        ]
+        ],
+        filterProjects: () => true
       };
 
     case EDIT_TASK_DESCRIPTION:
@@ -214,7 +226,62 @@ export default (state = {}, action) => {
       return {
         ...state,
         projects: [],
-        allProjectsLoaded: false
+        allProjectsLoaded: false,
+        filterProjects: () => true
+      };
+
+    case SHOW_ALL_PROJECTS:
+      return {
+        ...state,
+        functionSort: () => true,
+        filterProjects: () => true
+      };
+
+    case SORT_PROJECTS_DESCENDING_TASKS:
+      return {
+        ...state,
+        functionSort: (projectA, projectB) => projectB.tasks.length - projectA.tasks.length,
+        filterProjects: () => true
+      };
+
+    case SORT_PROJECTS_BY_NAME:
+      return {
+        ...state,
+        functionSort: (projectA, projectB) => projectA.name.normalize().localeCompare(projectB.name.normalize()),
+        filterProjects: () => true
+      };
+
+    case FILTER_PROJECTS_WITH_LETTER_A_NAME:
+      return {
+        ...state,
+        functionSort: () => true,
+        filterProjects: project => {
+          const name = project.name.toLowerCase();
+          return name.indexOf('a')
+            && (name.indexOf('a') + 1)
+            && (name.length - name.indexOf('a'));
+        }
+      };
+
+    case FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE:
+      return {
+        ...state,
+        functionSort: (projectA, projectB) => projectB.id - projectA.id,
+        filterProjects: project => project.tasks.reduce(((countTasksDone, task) => (
+          countTasksDone + task.done)
+        ), 0) > 10
+      };
+
+    case ERROR_MESSAGE:
+      return {
+        ...state,
+        errorMessage: action.payload
+      };
+
+    case FINISH_DOWNLOADING_PROJECTS:
+      return {
+        ...state,
+        allProjectsLoaded: true
       };
 
     default:

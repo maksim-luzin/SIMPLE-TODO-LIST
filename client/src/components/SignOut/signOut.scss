@@ -1,14 +1,58 @@
 .navigation-bar {
-  position: fixed;
+  cursor: pointer;
+  position: fixed !important;
+  z-index: 90;
   left: 0;
   top: 0;
   width: 100%;
   opacity: 0;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end !important;
+  justify-content: space-between !important;
 
   &:hover {
     opacity: 1;
+  }
+
+  .technical-requirements {
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    div {
+      width: 18.5%;
+
+      span::before {
+        content: '\25b7';
+      }
+  
+      .requirements-list {
+        position: absolute;
+        display: none;
+        width:50%;
+        color: white;
+        list-style-type: none;
+        padding-left: 2rem;
+
+        li div {
+          width: 100%;
+
+          &:hover {
+            background-color: gray;
+          }
+        }
+      }
+      
+  
+      &:hover{
+        .requirements-list {
+          display: inline-block;
+          z-index: 100;
+        }
+    
+        span::before {
+          content: '\25bd';
+        }
+      }
+    } 
   }
 }

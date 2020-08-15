@@ -15,7 +15,14 @@ import {
   UPDATE_TASK_DESCRIPTION,
   DELETE_TASK,
   UP_TASK,
-  DOWN_TASK
+  DOWN_TASK,
+  SHOW_ALL_PROJECTS,
+  SORT_PROJECTS_DESCENDING_TASKS,
+  SORT_PROJECTS_BY_NAME,
+  FILTER_PROJECTS_WITH_LETTER_A_NAME,
+  FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE,
+  ERROR_MESSAGE,
+  FINISH_DOWNLOADING_PROJECTS
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -220,3 +227,57 @@ export const downTask = down => async (dispatch, getRootState = {}) => {
   await taskService.moveTask(tasksServerMove(tasksMove));
   dispatch(downTaskAction({ indexProject, indexTask: down.indexTask, tasksMove }));
 };
+
+const showAllProjectsAction = () => ({
+  type: SHOW_ALL_PROJECTS
+});
+
+export const showAllProjects = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(showAllProjectsAction());
+};
+
+const sortProjectsDescendingNumberTasksAction = () => ({
+  type: SORT_PROJECTS_DESCENDING_TASKS
+});
+
+export const sortProjectsDescendingNumberTasks = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(sortProjectsDescendingNumberTasksAction());
+};
+
+const sortProjectsNameAction = () => ({
+  type: SORT_PROJECTS_BY_NAME
+});
+
+export const sortProjectsName = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(sortProjectsNameAction());
+};
+
+const filterProjectsWithLetterANameAction = () => ({
+  type: FILTER_PROJECTS_WITH_LETTER_A_NAME
+});
+
+export const filterProjectsWithLetterAName = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(filterProjectsWithLetterANameAction());
+};
+
+const filterProjectsWithMore10TasksDoneAction = () => ({
+  type: FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE
+});
+
+export const filterProjectsWithMore10TasksDone = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(filterProjectsWithMore10TasksDoneAction());
+};
+
+export const errorHandle = message => ({
+  type: ERROR_MESSAGE,
+  payload: message
+});
+
+export const finishDownloadingProjects = () => ({
+  type: FINISH_DOWNLOADING_PROJECTS
+});
