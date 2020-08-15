@@ -16,26 +16,43 @@
 
   .technical-requirements {
     flex-grow: 1;
+    flex-shrink: 1;
 
-    span::before {
-      content: '\25b7';
-    }
+    div {
+      width: 18.5%;
 
-    .requirements-list {
-      position: absolute;
-      display: none;
-      color: white;
-    }
-
-    &:hover{
-      .requirements-list {
-        display: inline-block;
-        z-index: 100;
+      span::before {
+        content: '\25b7';
       }
   
-      span::before {
-        content: '\25bd';
+      .requirements-list {
+        position: absolute;
+        display: none;
+        width:50%;
+        color: white;
+        list-style-type: none;
+        padding-left: 2rem;
+
+        li div {
+          width: 100%;
+
+          &:hover {
+            background-color: gray;
+          }
+        }
       }
-    }
+      
+  
+      &:hover{
+        .requirements-list {
+          display: inline-block;
+          z-index: 100;
+        }
+    
+        span::before {
+          content: '\25bd';
+        }
+      }
+    } 
   }
 }

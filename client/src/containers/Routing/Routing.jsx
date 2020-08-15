@@ -21,7 +21,8 @@ import {
   showAllProjects,
   sortProjectsDescendingNumberTasks,
   sortProjectsName,
-  filterProjectsWithLetterAName
+  filterProjectsWithLetterAName,
+  filterProjectsWithMore10TasksDone
 } from 'src/containers/ProjectList/actions';
 
 import './routing.scss';
@@ -34,7 +35,8 @@ const Routing = ({
   showAllProjects: showAllProjectsAction,
   sortProjectsDescendingNumberTasks: sortProjectsDescendingNumberTasksAction,
   sortProjectsName: sortProjectsNameAction,
-  filterProjectsWithLetterAName: filterProjectsWithLetterANameAction
+  filterProjectsWithLetterAName: filterProjectsWithLetterANameAction,
+  filterProjectsWithMore10TasksDone: filterProjectsWithMore10TasksDoneAction
 }) => {
   if (!isAuthorized) {
     loadUser();
@@ -51,6 +53,7 @@ const Routing = ({
               sortProjectsDescendingNumberTasks={sortProjectsDescendingNumberTasksAction}
               sortProjectsName={sortProjectsNameAction}
               filterProjectsWithLetterAName={filterProjectsWithLetterANameAction}
+              filterProjectsWithMore10TasksDone={filterProjectsWithMore10TasksDoneAction}
             />
           )
           : ''
@@ -90,7 +93,8 @@ Routing.propTypes = {
   showAllProjects: PropTypes.func.isRequired,
   sortProjectsDescendingNumberTasks: PropTypes.func.isRequired,
   sortProjectsName: PropTypes.func.isRequired,
-  filterProjectsWithLetterAName: PropTypes.func.isRequired
+  filterProjectsWithLetterAName: PropTypes.func.isRequired,
+  filterProjectsWithMore10TasksDone: PropTypes.func.isRequired
 };
 
 Routing.defaultProps = {
@@ -104,7 +108,8 @@ const actions = {
   showAllProjects,
   sortProjectsDescendingNumberTasks,
   sortProjectsName,
-  filterProjectsWithLetterAName
+  filterProjectsWithLetterAName,
+  filterProjectsWithMore10TasksDone
 };
 
 const mapStateToProps = ({ profile }) => ({

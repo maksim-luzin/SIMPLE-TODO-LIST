@@ -19,7 +19,8 @@ import {
   SHOW_ALL_PROJECTS,
   SORT_PROJECTS_DESCENDING_TASKS,
   SORT_PROJECTS_BY_NAME,
-  FILTER_PROJECTS_WITH_LETTER_A_NAME
+  FILTER_PROJECTS_WITH_LETTER_A_NAME,
+  FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -259,4 +260,13 @@ const filterProjectsWithLetterANameAction = () => ({
 export const filterProjectsWithLetterAName = () => (dispatch, getRootState = {}) => {
   if (permissionMidelware(getRootState())) return;
   dispatch(filterProjectsWithLetterANameAction());
+};
+
+const filterProjectsWithMore10TasksDoneAction = () => ({
+  type: FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE
+});
+
+export const filterProjectsWithMore10TasksDone = () => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(filterProjectsWithMore10TasksDoneAction());
 };

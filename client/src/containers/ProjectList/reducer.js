@@ -17,7 +17,8 @@ import {
   SHOW_ALL_PROJECTS,
   SORT_PROJECTS_DESCENDING_TASKS,
   SORT_PROJECTS_BY_NAME,
-  FILTER_PROJECTS_WITH_LETTER_A_NAME
+  FILTER_PROJECTS_WITH_LETTER_A_NAME,
+  FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -131,7 +132,8 @@ export default (state = {}, action) => {
             ]
           },
           ...state.projects.slice(indexProject + 1)
-        ]
+        ],
+        filterProjects: () => true
       };
 
     case EDIT_TASK_DESCRIPTION:
@@ -236,14 +238,14 @@ export default (state = {}, action) => {
     case SORT_PROJECTS_DESCENDING_TASKS:
       return {
         ...state,
-        functionSort: (a, b) => b.tasks.length - a.tasks.length,
+        functionSort: (projectA, projectB) => projectB.tasks.length - projectA.tasks.length,
         filterProjects: () => true
       };
 
     case SORT_PROJECTS_BY_NAME:
       return {
         ...state,
-        functionSort: (a, b) => a.name.normalize().localeCompare(b.name.normalize()),
+        functionSort: (projectA, projectB) => projectA.name.normalize().localeCompare(projectB.name.normalize()),
         filterProjects: () => true
       };
 
@@ -251,12 +253,21 @@ export default (state = {}, action) => {
       return {
         ...state,
         functionSort: () => true,
-        filterProjects: a => {
-          const name = a.name.toLowerCase();
+        filterProjects: project => {
+          const name = project.name.toLowerCase();
           return name.indexOf('a')
             && (name.indexOf('a') + 1)
             && (name.length - name.indexOf('a'));
         }
+      };
+
+    case FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE:
+      return {
+        ...state,
+        functionSort: (projectA, projectB) => projectB.id - projectA.id,
+        filterProjects: project => project.tasks.reduce(((countTasksDone, task) => (
+          countTasksDone + task.done)
+        ), 0) > 10
       };
 
     default:
