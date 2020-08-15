@@ -20,7 +20,9 @@ import {
   SORT_PROJECTS_DESCENDING_TASKS,
   SORT_PROJECTS_BY_NAME,
   FILTER_PROJECTS_WITH_LETTER_A_NAME,
-  FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE
+  FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE,
+  ERROR_MESSAGE,
+  FINISH_DOWNLOADING_PROJECTS
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -270,3 +272,12 @@ export const filterProjectsWithMore10TasksDone = () => (dispatch, getRootState =
   if (permissionMidelware(getRootState())) return;
   dispatch(filterProjectsWithMore10TasksDoneAction());
 };
+
+export const errorHandle = message => ({
+  type: ERROR_MESSAGE,
+  payload: message
+});
+
+export const finishDownloadingProjects = () => ({
+  type: FINISH_DOWNLOADING_PROJECTS
+});

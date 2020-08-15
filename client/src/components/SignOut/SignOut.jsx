@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 import './signOut.scss';
 
@@ -12,44 +11,45 @@ const SignOut = ({
   sortProjectsDescendingNumberTasks,
   sortProjectsName,
   filterProjectsWithLetterAName,
-  filterProjectsWithMore10TasksDone
+  filterProjectsWithMore10TasksDone,
+  errorHandle
 }) => {
-  const handleShowAllProjects = () => {
+  const handleShowAllProjects = async () => {
     try {
-      showAllProjects();
+      await showAllProjects();
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Show all projects descending number tasks do not work.');
     }
   };
-  const handleSortProjectsDescendingNumberTasks = () => {
+  const handleSortProjectsDescendingNumberTasks = async () => {
     try {
-      sortProjectsDescendingNumberTasks();
+      await sortProjectsDescendingNumberTasks();
     } catch (err) {
-      NotificationManager.error(err.message);
-    }
-  };
-
-  const handleSortProjectsName = () => {
-    try {
-      sortProjectsName();
-    } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Sort projects descending number tasks do not work.');
     }
   };
 
-  const handleFilterProjectsWithLetterAName = () => {
+  const handleSortProjectsName = async () => {
     try {
-      filterProjectsWithLetterAName();
+      await sortProjectsName();
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Sort projects name do not work.');
     }
   };
 
-  const handleFilterProjectsWithMore10TasksDone = () => {
+  const handleFilterProjectsWithLetterAName = async () => {
     try {
-      filterProjectsWithMore10TasksDone();
+      await filterProjectsWithLetterAName();
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Filter projects with letter a name do not work.');
+    }
+  };
+
+  const handleFilterProjectsWithMore10TasksDone = async () => {
+    try {
+      await filterProjectsWithMore10TasksDone();
+    } catch (err) {
+      errorHandle('Filter projects with more 10 tasks done do not work.');
     }
   };
 
@@ -67,24 +67,24 @@ const SignOut = ({
               </div>
             </li>
             <li>
-              <div onClick={() => handleSortProjectsDescendingNumberTasks()}>
+              <div onClick={handleSortProjectsDescendingNumberTasks}>
                 Get the count of all tasks in each project, order by tasks count descending.
               </div>
             </li>
             <li>
-              <div onClick={() => handleSortProjectsName()}>
+              <div onClick={handleSortProjectsName}>
                 Get the count of all tasks in each project, order by projects names.
               </div>
             </li>
             <li>
-              <div onClick={() => handleFilterProjectsWithLetterAName()}>
+              <div onClick={handleFilterProjectsWithLetterAName}>
                 Get the list of all projects containing the &quot;a&quot; letter in the middle of the name,
                 and show the tasks count near each project. Mention that there can exist projects
                 without tasks and tasks with project_id = NULL
               </div>
             </li>
             <li>
-              <div onClick={() => handleFilterProjectsWithMore10TasksDone()}>
+              <div onClick={handleFilterProjectsWithMore10TasksDone}>
                 Get the list of project names having more than 10 tasks in status &quot;completed&quot;.
                 Order by project_id
               </div>
@@ -95,7 +95,6 @@ const SignOut = ({
       <div>
         <Button className="btn btn-outline-secondary my-2 my-sm-0 text-white" onClick={logout}>SignOut</Button>
       </div>
-      <NotificationContainer />
     </nav>
   );
 };
@@ -106,7 +105,8 @@ SignOut.propTypes = {
   sortProjectsDescendingNumberTasks: PropTypes.func.isRequired,
   sortProjectsName: PropTypes.func.isRequired,
   filterProjectsWithLetterAName: PropTypes.func.isRequired,
-  filterProjectsWithMore10TasksDone: PropTypes.func.isRequired
+  filterProjectsWithMore10TasksDone: PropTypes.func.isRequired,
+  errorHandle: PropTypes.func.isRequired
 };
 
 export default SignOut;

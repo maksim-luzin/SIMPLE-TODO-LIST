@@ -18,7 +18,9 @@ import {
   SORT_PROJECTS_DESCENDING_TASKS,
   SORT_PROJECTS_BY_NAME,
   FILTER_PROJECTS_WITH_LETTER_A_NAME,
-  FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE
+  FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE,
+  ERROR_MESSAGE,
+  FINISH_DOWNLOADING_PROJECTS
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -268,6 +270,18 @@ export default (state = {}, action) => {
         filterProjects: project => project.tasks.reduce(((countTasksDone, task) => (
           countTasksDone + task.done)
         ), 0) > 10
+      };
+
+    case ERROR_MESSAGE:
+      return {
+        ...state,
+        errorMessage: action.payload
+      };
+
+    case FINISH_DOWNLOADING_PROJECTS:
+      return {
+        ...state,
+        allProjectsLoaded: true
       };
 
     default:

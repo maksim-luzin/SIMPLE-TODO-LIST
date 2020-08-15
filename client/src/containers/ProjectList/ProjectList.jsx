@@ -14,7 +14,9 @@ import Spinner from '../../components/Spinner';
 import {
   addProject,
   closeConfirmAction,
-  loadAllProjects
+  loadAllProjects,
+  errorHandle,
+  finishDownloadingProjects
 } from './actions';
 
 import './project-list.scss';
@@ -29,33 +31,47 @@ const ProjectList = ({
   loadAllProjects: loadProjects,
   allProjectsLoaded,
   functionSort,
-  filterProjects
-}) => (
-  <section className="flex-grow-1 d-flex flex-column">
-    <InfiniteScroll
-      className="flex-grow-1 project-list overflow-hidden"
-      pageStart={0}
-      loadMore={loadProjects}
-      hasMore={!allProjectsLoaded}
-      loader={<Spinner />}
-    >
-      {projects.length
-        ? ([...projects].sort(functionSort).filter(filterProjects).map(project => (
-          <Project key={project.id} project={project} />
-        ))
-        )
-        : <div>&nbsp;</div>}
-    </InfiniteScroll>
-    <NewProject addProject={addProjectAction} />
-    {modal && (
-      <Modal
-        deleteFunction={deleteFunction}
-        deleteData={deleteData}
-        closeConfirmAction={closeConfirm}
-      />
-    )}
-  </section>
-);
+  filterProjects,
+  errorHandle: errorHandleAction,
+  finishDownloadingProjects: finishDownloadingProjectsAction
+}) => {
+  const handleLoadAllProjects = async event => {
+    try {
+      await loadProjects();
+    } catch (err) {
+      finishDownloadingProjectsAction();
+      errorHandleAction('Load all projects do not work.');
+    }
+  };
+
+  return (
+    <section className="flex-grow-1 d-flex flex-column">
+      <InfiniteScroll
+        className="flex-grow-1 project-list overflow-hidden"
+        pageStart={0}
+        loadMore={handleLoadAllProjects}
+        hasMore={!allProjectsLoaded}
+        loader={<Spinner />}
+      >
+        {projects.length
+          ? ([...projects].sort(functionSort).filter(filterProjects).map(project => (
+            <Project key={project.id} project={project} />
+          ))
+          )
+          : <div>&nbsp;</div>}
+      </InfiniteScroll>
+      <NewProject addProject={addProjectAction} errorHandle={errorHandleAction} />
+      {modal && (
+        <Modal
+          deleteFunction={deleteFunction}
+          deleteData={deleteData}
+          closeConfirmAction={closeConfirm}
+          errorHandle={errorHandleAction}
+        />
+      )}
+    </section>
+  );
+};
 
 ProjectList.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.object),
@@ -67,7 +83,9 @@ ProjectList.propTypes = {
   loadAllProjects: PropTypes.func.isRequired,
   allProjectsLoaded: PropTypes.bool,
   functionSort: PropTypes.func.isRequired,
-  filterProjects: PropTypes.func.isRequired
+  filterProjects: PropTypes.func.isRequired,
+  errorHandle: PropTypes.func.isRequired,
+  finishDownloadingProjects: PropTypes.func.isRequired
 };
 
 ProjectList.defaultProps = {
@@ -89,7 +107,9 @@ const mapStateToProps = rootState => ({
 const actions = {
   addProject,
   closeConfirmAction,
-  loadAllProjects
+  loadAllProjects,
+  errorHandle,
+  finishDownloadingProjects
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

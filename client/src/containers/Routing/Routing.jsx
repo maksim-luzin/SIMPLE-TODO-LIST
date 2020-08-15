@@ -12,6 +12,7 @@ import NotFound from 'src/scenes/NotFound';
 import PrivateRoute from 'src/containers/PrivateRoute';
 import PublicRoute from 'src/containers/PublicRoute';
 import SignOut from 'src/components/SignOut';
+import Notifications from 'src/components/Notifications';
 import {
   loadCurrentUser,
   logout
@@ -22,7 +23,8 @@ import {
   sortProjectsDescendingNumberTasks,
   sortProjectsName,
   filterProjectsWithLetterAName,
-  filterProjectsWithMore10TasksDone
+  filterProjectsWithMore10TasksDone,
+  errorHandle
 } from 'src/containers/ProjectList/actions';
 
 import './routing.scss';
@@ -36,7 +38,9 @@ const Routing = ({
   sortProjectsDescendingNumberTasks: sortProjectsDescendingNumberTasksAction,
   sortProjectsName: sortProjectsNameAction,
   filterProjectsWithLetterAName: filterProjectsWithLetterANameAction,
-  filterProjectsWithMore10TasksDone: filterProjectsWithMore10TasksDoneAction
+  filterProjectsWithMore10TasksDone: filterProjectsWithMore10TasksDoneAction,
+  errorMessage,
+  errorHandle: errorHandleAction
 }) => {
   if (!isAuthorized) {
     loadUser();
@@ -54,6 +58,7 @@ const Routing = ({
               sortProjectsName={sortProjectsNameAction}
               filterProjectsWithLetterAName={filterProjectsWithLetterANameAction}
               filterProjectsWithMore10TasksDone={filterProjectsWithMore10TasksDoneAction}
+              errorHandle={errorHandleAction}
             />
           )
           : ''
@@ -81,6 +86,7 @@ const Routing = ({
           <p className="text-white">&#169; Ruby Garage</p>
         </footer>
       </div>
+      <Notifications errorMessage={errorMessage} errorHandle={errorHandleAction} />
     </div>
   );
 };
@@ -94,12 +100,15 @@ Routing.propTypes = {
   sortProjectsDescendingNumberTasks: PropTypes.func.isRequired,
   sortProjectsName: PropTypes.func.isRequired,
   filterProjectsWithLetterAName: PropTypes.func.isRequired,
-  filterProjectsWithMore10TasksDone: PropTypes.func.isRequired
+  filterProjectsWithMore10TasksDone: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
+  errorHandle: PropTypes.func.isRequired
 };
 
 Routing.defaultProps = {
   isAuthorized: false,
-  isLoading: true
+  isLoading: true,
+  errorMessage: ''
 };
 
 const actions = {
@@ -109,12 +118,14 @@ const actions = {
   sortProjectsDescendingNumberTasks,
   sortProjectsName,
   filterProjectsWithLetterAName,
-  filterProjectsWithMore10TasksDone
+  filterProjectsWithMore10TasksDone,
+  errorHandle
 };
 
-const mapStateToProps = ({ profile }) => ({
-  isAuthorized: profile.isAuthorized,
-  isLoading: profile.isLoading
+const mapStateToProps = rootState => ({
+  isAuthorized: rootState.profile.isAuthorized,
+  isLoading: rootState.profile.isLoading,
+  errorMessage: rootState.projects.errorMessage
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

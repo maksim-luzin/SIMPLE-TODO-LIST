@@ -22,7 +22,8 @@ import {
   updateTaskDescription,
   deleteTask,
   upTask,
-  downTask
+  downTask,
+  errorHandle
 } from '../ProjectList/actions';
 
 import './project.scss';
@@ -41,7 +42,8 @@ const Project = ({
   updateTaskDescription: updateTaskDescriptionAction,
   deleteTask: deleteTaskAction,
   upTask: upTaskAction,
-  downTask: downTaskAction
+  downTask: downTaskAction,
+  errorHandle: errorHandleAction
 }) => (
   <Card className="mb-5 project">
     <ProjectManeger
@@ -53,10 +55,12 @@ const Project = ({
       modalConfirmAction={modalConfirm}
       deleteProject={deleteProjectAction}
       tasksCount={project.tasks.length}
+      errorHandle={errorHandleAction}
     />
     <NewTask
       addTask={addTaskAction}
       id={project.id}
+      errorHandle={errorHandleAction}
     />
     <Table responsive className="table mb-0 table-bordered table-hover">
       <colgroup>
@@ -78,6 +82,7 @@ const Project = ({
             deleteTask={deleteTaskAction}
             upTask={upTaskAction}
             downTask={downTaskAction}
+            errorHandle={errorHandleAction}
           />
         ))}
       </tbody>
@@ -99,7 +104,8 @@ Project.propTypes = {
   updateTaskDescription: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
   upTask: PropTypes.func.isRequired,
-  downTask: PropTypes.func.isRequired
+  downTask: PropTypes.func.isRequired,
+  errorHandle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = rootState => ({
@@ -118,7 +124,8 @@ const actions = {
   updateTaskDescription,
   deleteTask,
   upTask,
-  downTask
+  downTask,
+  errorHandle
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 import { Card, Form, Button } from 'react-bootstrap';
 
@@ -15,28 +14,38 @@ const ProjectManeger = ({
   updateProjectName,
   deleteProject,
   modalConfirmAction,
-  tasksCount
+  tasksCount,
+  errorHandle
 }) => {
   const [getName, setName] = useState(name);
 
-  const handleUpdateProjectName = event => {
+  const handleEditProjectName = async event => {
+    try {
+      event.preventDefault();
+      await editProjectName({ id });
+    } catch (err) {
+      errorHandle('Edit project name do not work.');
+    }
+  };
+
+  const handleUpdateProjectName = async event => {
     try {
       event.preventDefault();
       if (!getName.trim()) {
         return;
       }
-      updateProjectName({ id, name: getName.trim() });
+      await updateProjectName({ id, name: getName.trim() });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Update project name do not work.');
     }
   };
 
-  const handleDeleteProject = event => {
+  const handleDeleteProject = async event => {
     try {
       event.preventDefault();
-      modalConfirmAction({ deleteFunction: deleteProject, deleteData: { id } });
+      await modalConfirmAction({ deleteFunction: deleteProject, deleteData: { id } });
     } catch (err) {
-      NotificationManager.error(err.message);
+      errorHandle('Delete project do not work.');
     }
   };
 
@@ -65,7 +74,6 @@ const ProjectManeger = ({
             </div>
           </Form.Group>
         </Form>
-        <NotificationContainer />
       </Card.Header>
     )
     : (
@@ -73,14 +81,13 @@ const ProjectManeger = ({
         <div className="project-name">
           {getName}
         </div>
-        <div className="project-edit" onClick={() => editProjectName({ id })}>&nbsp;</div>
+        <div className="project-edit" onClick={handleEditProjectName}>&nbsp;</div>
         <div className="project-delete" onClick={handleDeleteProject}>&nbsp;</div>
         <div className="tasks-count">
           {tasksCount
             ? `${tasksCount} task${tasksCount === 1 ? '' : 's'}.`
             : ''}
         </div>
-        <NotificationContainer />
       </Card.Header>
     );
 };
@@ -93,7 +100,8 @@ ProjectManeger.propTypes = {
   updateProjectName: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
   modalConfirmAction: PropTypes.func.isRequired,
-  tasksCount: PropTypes.number.isRequired
+  tasksCount: PropTypes.number.isRequired,
+  errorHandle: PropTypes.func.isRequired
 };
 
 export default ProjectManeger;
