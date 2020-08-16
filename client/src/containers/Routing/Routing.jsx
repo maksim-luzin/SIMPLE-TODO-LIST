@@ -11,7 +11,7 @@ import RegistrationPage from 'src/containers/RegistrationPage';
 import NotFound from 'src/scenes/NotFound';
 import PrivateRoute from 'src/containers/PrivateRoute';
 import PublicRoute from 'src/containers/PublicRoute';
-import SignOut from 'src/components/SignOut';
+import ControlMenu from 'src/components/ControlMenu';
 import Notifications from 'src/components/Notifications';
 import {
   loadCurrentUser,
@@ -24,7 +24,8 @@ import {
   sortProjectsName,
   filterProjectsWithLetterAName,
   filterProjectsWithMore10TasksDone,
-  errorHandle
+  errorHandle,
+  filterSearch
 } from 'src/containers/ProjectList/actions';
 
 import './routing.scss';
@@ -40,7 +41,8 @@ const Routing = ({
   filterProjectsWithLetterAName: filterProjectsWithLetterANameAction,
   filterProjectsWithMore10TasksDone: filterProjectsWithMore10TasksDoneAction,
   errorMessage,
-  errorHandle: errorHandleAction
+  errorHandle: errorHandleAction,
+  filterSearch: filterSearchAction
 }) => {
   if (!isAuthorized) {
     loadUser();
@@ -51,7 +53,7 @@ const Routing = ({
       {
         isAuthorized
           ? (
-            <SignOut
+            <ControlMenu
               logout={logoutAction}
               showAllProjects={showAllProjectsAction}
               sortProjectsDescendingNumberTasks={sortProjectsDescendingNumberTasksAction}
@@ -59,6 +61,7 @@ const Routing = ({
               filterProjectsWithLetterAName={filterProjectsWithLetterANameAction}
               filterProjectsWithMore10TasksDone={filterProjectsWithMore10TasksDoneAction}
               errorHandle={errorHandleAction}
+              filterSearch={filterSearchAction}
             />
           )
           : ''
@@ -102,7 +105,8 @@ Routing.propTypes = {
   filterProjectsWithLetterAName: PropTypes.func.isRequired,
   filterProjectsWithMore10TasksDone: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
-  errorHandle: PropTypes.func.isRequired
+  errorHandle: PropTypes.func.isRequired,
+  filterSearch: PropTypes.func.isRequired
 };
 
 Routing.defaultProps = {
@@ -119,7 +123,8 @@ const actions = {
   sortProjectsName,
   filterProjectsWithLetterAName,
   filterProjectsWithMore10TasksDone,
-  errorHandle
+  errorHandle,
+  filterSearch
 };
 
 const mapStateToProps = rootState => ({

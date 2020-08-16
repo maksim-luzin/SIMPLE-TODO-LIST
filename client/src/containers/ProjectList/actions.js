@@ -22,7 +22,8 @@ import {
   FILTER_PROJECTS_WITH_LETTER_A_NAME,
   FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE,
   ERROR_MESSAGE,
-  FINISH_DOWNLOADING_PROJECTS
+  FINISH_DOWNLOADING_PROJECTS,
+  FILTER_SEARCH
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -281,3 +282,13 @@ export const errorHandle = message => ({
 export const finishDownloadingProjects = () => ({
   type: FINISH_DOWNLOADING_PROJECTS
 });
+
+const filterSearchAction = searchValue => ({
+  type: FILTER_SEARCH,
+  payload: searchValue
+});
+
+export const filterSearch = searchValue => (dispatch, getRootState = {}) => {
+  if (permissionMidelware(getRootState())) return;
+  dispatch(filterSearchAction(searchValue));
+};
