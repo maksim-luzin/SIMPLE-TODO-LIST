@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
-import './signOut.scss';
+import './controlMenu.scss';
 
 const SignOut = ({
   logout,
@@ -12,44 +12,62 @@ const SignOut = ({
   sortProjectsName,
   filterProjectsWithLetterAName,
   filterProjectsWithMore10TasksDone,
-  errorHandle
+  errorHandle,
+  filterSearch
 }) => {
-  const handleShowAllProjects = async () => {
+  const [getSearch, setSearch] = useState('');
+
+  const handleShowAllProjects = async event => {
     try {
+      event.preventDefault();
       await showAllProjects();
     } catch (err) {
       errorHandle('Show all projects descending number tasks do not work.');
     }
   };
-  const handleSortProjectsDescendingNumberTasks = async () => {
+  const handleSortProjectsDescendingNumberTasks = async event => {
     try {
+      event.preventDefault();
       await sortProjectsDescendingNumberTasks();
     } catch (err) {
       errorHandle('Sort projects descending number tasks do not work.');
     }
   };
 
-  const handleSortProjectsName = async () => {
+  const handleSortProjectsName = async event => {
     try {
+      event.preventDefault();
       await sortProjectsName();
     } catch (err) {
       errorHandle('Sort projects name do not work.');
     }
   };
 
-  const handleFilterProjectsWithLetterAName = async () => {
+  const handleFilterProjectsWithLetterAName = async event => {
     try {
+      event.preventDefault();
       await filterProjectsWithLetterAName();
     } catch (err) {
       errorHandle('Filter projects with letter a name do not work.');
     }
   };
 
-  const handleFilterProjectsWithMore10TasksDone = async () => {
+  const handleFilterProjectsWithMore10TasksDone = async event => {
     try {
+      event.preventDefault();
       await filterProjectsWithMore10TasksDone();
     } catch (err) {
       errorHandle('Filter projects with more 10 tasks done do not work.');
+    }
+  };
+
+  const handleSearch = async event => {
+    try {
+      event.preventDefault();
+      setSearch(event.target.value);
+      await filterSearch(event.target.value.trim());
+    } catch (err) {
+      errorHandle('Search do not work.');
     }
   };
 
@@ -92,6 +110,17 @@ const SignOut = ({
           </ul>
         </div>
       </div>
+      <div className="search-form">
+        <Form.Control
+          className="form-control mr-sm-2"
+          type="text"
+          maxLength="20"
+          placeholder="Search"
+          aria-label="Search"
+          value={getSearch}
+          onChange={handleSearch}
+        />
+      </div>
       <div>
         <Button className="btn btn-outline-secondary my-2 my-sm-0 text-white" onClick={logout}>SignOut</Button>
       </div>
@@ -106,7 +135,8 @@ SignOut.propTypes = {
   sortProjectsName: PropTypes.func.isRequired,
   filterProjectsWithLetterAName: PropTypes.func.isRequired,
   filterProjectsWithMore10TasksDone: PropTypes.func.isRequired,
-  errorHandle: PropTypes.func.isRequired
+  errorHandle: PropTypes.func.isRequired,
+  filterSearch: PropTypes.func.isRequired
 };
 
 export default SignOut;

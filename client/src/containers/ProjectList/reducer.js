@@ -20,7 +20,8 @@ import {
   FILTER_PROJECTS_WITH_LETTER_A_NAME,
   FILTER_PROJECTS_WITH_MORE_10_TASKS_DONE,
   ERROR_MESSAGE,
-  FINISH_DOWNLOADING_PROJECTS
+  FINISH_DOWNLOADING_PROJECTS,
+  FILTER_SEARCH
 } from './actionTypes';
 
 const search = (searchPlace, searcItem) => searchPlace.indexOf(searchPlace.find(element => element.id === searcItem));
@@ -282,6 +283,19 @@ export default (state = {}, action) => {
       return {
         ...state,
         allProjectsLoaded: true
+      };
+
+    case FILTER_SEARCH:
+      return {
+        ...state,
+        functionSort: () => true,
+        filterProjects: project => {
+          if (project.name.toLowerCase().indexOf(action.payload) !== -1) return true;
+          if (project.tasks.some(task => task.description.toLowerCase().indexOf(action.payload) !== -1)) {
+            return true;
+          }
+          return false;
+        }
       };
 
     default:
