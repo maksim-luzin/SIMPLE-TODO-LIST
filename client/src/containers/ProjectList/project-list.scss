@@ -1,4 +1,11 @@
 .project-list {
+  overflow-x: hidden;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
   max-height: 664.146px;
+}
+
+.project-list::-webkit-scrollbar {
+  width: 0; 
 }
